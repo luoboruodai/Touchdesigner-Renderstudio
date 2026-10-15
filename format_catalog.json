@@ -1,0 +1,828 @@
+{
+  "containers": {
+    "mp4": {
+      "label": "MP4 · 通用 / 网络",
+      "ext": ".mp4",
+      "mux": "mp4",
+      "audio": "aac"
+    },
+    "mov": {
+      "label": "MOV · QuickTime / 后期",
+      "ext": ".mov",
+      "mux": "mov",
+      "audio": "pcm_s16le"
+    },
+    "mkv": {
+      "label": "MKV · 多编码 / 归档",
+      "ext": ".mkv",
+      "mux": "matroska",
+      "audio": "flac"
+    },
+    "webm": {
+      "label": "WebM · 网页视频",
+      "ext": ".webm",
+      "mux": "webm",
+      "audio": "libopus"
+    },
+    "avi": {
+      "label": "AVI · 传统 / 无损",
+      "ext": ".avi",
+      "mux": "avi",
+      "audio": "pcm_s16le"
+    },
+    "mxf": {
+      "label": "MXF · 广播交换",
+      "ext": ".mxf",
+      "mux": "mxf",
+      "audio": "pcm_s16le"
+    },
+    "mpg": {
+      "label": "MPEG · MPG 节目流",
+      "ext": ".mpg",
+      "mux": "mpeg",
+      "audio": "mp2"
+    },
+    "ts": {
+      "label": "MPEG-TS · 传输流",
+      "ext": ".ts",
+      "mux": "mpegts",
+      "audio": "aac"
+    },
+    "flv": {
+      "label": "FLV · 兼容输出",
+      "ext": ".flv",
+      "mux": "flv",
+      "audio": "aac"
+    },
+    "wmv": {
+      "label": "WMV / ASF · Windows兼容",
+      "ext": ".wmv",
+      "mux": "asf",
+      "audio": "wmav2"
+    },
+    "gif": {
+      "label": "GIF · 动图",
+      "ext": ".gif",
+      "mux": "gif",
+      "audio": null
+    }
+  },
+  "codecs": {
+    "h264": {
+      "label": "H.264 / AVC",
+      "containers": [
+        "mp4",
+        "mov",
+        "mkv",
+        "ts",
+        "flv"
+      ],
+      "encoder": "libx264",
+      "td": "h264",
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "h264vt": {
+      "label": "H.264 · VideoToolbox 硬件",
+      "containers": [
+        "mp4",
+        "mov",
+        "mkv",
+        "ts",
+        "flv"
+      ],
+      "encoder": "h264_videotoolbox",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "h264rgb": {
+      "label": "H.264 RGB · 4:4:4",
+      "containers": [
+        "mp4",
+        "mov",
+        "mkv"
+      ],
+      "encoder": "libx264rgb",
+      "td": null,
+      "tdtype": null,
+      "pix": "rgb24",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "h265": {
+      "label": "H.265 / HEVC",
+      "containers": [
+        "mp4",
+        "mov",
+        "mkv",
+        "ts"
+      ],
+      "encoder": "libx265",
+      "td": "h265",
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "h265vt": {
+      "label": "H.265 · VideoToolbox 硬件",
+      "containers": [
+        "mp4",
+        "mov",
+        "mkv",
+        "ts"
+      ],
+      "encoder": "hevc_videotoolbox",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "hevc10": {
+      "label": "HEVC Main 10 · 10-bit",
+      "containers": [
+        "mp4",
+        "mov",
+        "mkv",
+        "ts"
+      ],
+      "encoder": "libx265",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "网络",
+      "options": [
+        "-profile:v",
+        "main10"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "av1": {
+      "label": "AV1 · SVT-AV1",
+      "containers": [
+        "mp4",
+        "mkv",
+        "webm"
+      ],
+      "encoder": "libsvtav1",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "vp8": {
+      "label": "VP8 · WebM",
+      "containers": [
+        "webm",
+        "mkv"
+      ],
+      "encoder": "libvpx",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "vp9": {
+      "label": "VP9 · WebM",
+      "containers": [
+        "webm",
+        "mkv"
+      ],
+      "encoder": "libvpx-vp9",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "网络",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "mpeg4": {
+      "label": "MPEG-4 Part 2",
+      "containers": [
+        "mp4",
+        "mov",
+        "avi",
+        "mkv"
+      ],
+      "encoder": "mpeg4",
+      "td": "mpeg4",
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "兼容",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "prores_proxy": {
+      "label": "ProRes 422 Proxy",
+      "containers": [
+        "mov",
+        "mkv"
+      ],
+      "encoder": "prores_ks",
+      "td": "prores",
+      "tdtype": "prores422proxy",
+      "pix": "yuv422p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "0"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "prores_lt": {
+      "label": "ProRes 422 LT",
+      "containers": [
+        "mov",
+        "mkv"
+      ],
+      "encoder": "prores_ks",
+      "td": "prores",
+      "tdtype": "prores422lt",
+      "pix": "yuv422p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "1"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "prores422": {
+      "label": "ProRes 422",
+      "containers": [
+        "mov",
+        "mkv"
+      ],
+      "encoder": "prores_ks",
+      "td": "prores",
+      "tdtype": "prores422",
+      "pix": "yuv422p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "2"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "prores": {
+      "label": "ProRes 422 HQ",
+      "containers": [
+        "mov",
+        "mkv"
+      ],
+      "encoder": "prores_ks",
+      "td": "prores",
+      "tdtype": "prores422hq",
+      "pix": "yuv422p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "3"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "prores4444": {
+      "label": "ProRes 4444 · Alpha",
+      "containers": [
+        "mov",
+        "mkv"
+      ],
+      "encoder": "prores_ks",
+      "td": "prores",
+      "tdtype": "prores4444",
+      "pix": "yuv444p10le",
+      "alpha_pix": "yuva444p10le",
+      "depth": 12,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "4"
+      ],
+      "force_alpha": true,
+      "constraint": null
+    },
+    "prores_xq": {
+      "label": "ProRes 4444 XQ · Alpha",
+      "containers": [
+        "mov",
+        "mkv"
+      ],
+      "encoder": "prores_ks",
+      "td": "prores",
+      "tdtype": "prores4444xq",
+      "pix": "yuv444p10le",
+      "alpha_pix": "yuva444p10le",
+      "depth": 12,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "5"
+      ],
+      "force_alpha": true,
+      "constraint": null
+    },
+    "dnxhr_lb": {
+      "label": "DNXHR LB",
+      "containers": [
+        "mov",
+        "mkv",
+        "mxf"
+      ],
+      "encoder": "dnxhd",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv422p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "dnxhr_lb"
+      ],
+      "force_alpha": false,
+      "constraint": "dnxhr"
+    },
+    "dnxhr_sq": {
+      "label": "DNXHR SQ",
+      "containers": [
+        "mov",
+        "mkv",
+        "mxf"
+      ],
+      "encoder": "dnxhd",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv422p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "dnxhr_sq"
+      ],
+      "force_alpha": false,
+      "constraint": "dnxhr"
+    },
+    "dnxhr_hq": {
+      "label": "DNXHR HQ",
+      "containers": [
+        "mov",
+        "mkv",
+        "mxf"
+      ],
+      "encoder": "dnxhd",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv422p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "dnxhr_hq"
+      ],
+      "force_alpha": false,
+      "constraint": "dnxhr"
+    },
+    "dnxhr_hqx": {
+      "label": "DNXHR HQX",
+      "containers": [
+        "mov",
+        "mkv",
+        "mxf"
+      ],
+      "encoder": "dnxhd",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv422p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "dnxhr_hqx"
+      ],
+      "force_alpha": false,
+      "constraint": "dnxhr"
+    },
+    "dnxhr_444": {
+      "label": "DNXHR 444",
+      "containers": [
+        "mov",
+        "mkv",
+        "mxf"
+      ],
+      "encoder": "dnxhd",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv444p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "后期",
+      "options": [
+        "-profile:v",
+        "dnxhr_444"
+      ],
+      "force_alpha": false,
+      "constraint": "dnxhr"
+    },
+    "cineform": {
+      "label": "GoPro CineForm · 10/12-bit",
+      "containers": [
+        "mov",
+        "avi"
+      ],
+      "encoder": "cfhd",
+      "td": "cineform",
+      "tdtype": null,
+      "pix": "gbrp12le",
+      "alpha_pix": "gbrap12le",
+      "depth": 12,
+      "group": "后期",
+      "options": [
+        "-quality",
+        "5"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "rle": {
+      "label": "Animation / QuickTime RLE · 无损",
+      "containers": [
+        "mov"
+      ],
+      "encoder": "qtrle",
+      "td": "rle",
+      "tdtype": null,
+      "pix": "rgb24",
+      "alpha_pix": "argb",
+      "depth": 8,
+      "group": "无损",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "hap": {
+      "label": "Hap · GPU 播放",
+      "containers": [
+        "mov"
+      ],
+      "encoder": null,
+      "td": "hap",
+      "tdtype": "hap",
+      "pix": "rgb24",
+      "alpha_pix": "rgba",
+      "depth": 8,
+      "group": "实时",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "hapq": {
+      "label": "Hap Q · GPU 播放",
+      "containers": [
+        "mov"
+      ],
+      "encoder": null,
+      "td": "hap",
+      "tdtype": "hapq",
+      "pix": "rgb24",
+      "alpha_pix": "rgba",
+      "depth": 8,
+      "group": "实时",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "mjpeg": {
+      "label": "Motion JPEG / MJPEG",
+      "containers": [
+        "mov",
+        "avi",
+        "mkv"
+      ],
+      "encoder": "mjpeg",
+      "td": "mjpa",
+      "tdtype": null,
+      "pix": "yuvj422p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "兼容",
+      "options": [
+        "-q:v",
+        "3"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "jpeg2000": {
+      "label": "JPEG 2000",
+      "containers": [
+        "mov",
+        "mkv"
+      ],
+      "encoder": "jpeg2000",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv444p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "后期",
+      "options": [
+        "-pred",
+        "1"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "ffv1": {
+      "label": "FFV1 v3 · 无损归档",
+      "containers": [
+        "mkv",
+        "avi"
+      ],
+      "encoder": "ffv1",
+      "td": null,
+      "tdtype": null,
+      "pix": "bgr0",
+      "alpha_pix": "bgra",
+      "depth": 8,
+      "group": "无损",
+      "options": [
+        "-level",
+        "3",
+        "-coder",
+        "1",
+        "-context",
+        "1",
+        "-slicecrc",
+        "1"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "ffv1_16": {
+      "label": "FFV1 · 16-bit 无损",
+      "containers": [
+        "mkv"
+      ],
+      "encoder": "ffv1",
+      "td": null,
+      "tdtype": null,
+      "pix": "gbrp16le",
+      "alpha_pix": "gbrap16le",
+      "depth": 16,
+      "group": "无损",
+      "options": [
+        "-level",
+        "3",
+        "-coder",
+        "1",
+        "-context",
+        "1",
+        "-slicecrc",
+        "1"
+      ],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "huffyuv": {
+      "label": "HuffYUV · 无损",
+      "containers": [
+        "avi",
+        "mkv"
+      ],
+      "encoder": "huffyuv",
+      "td": null,
+      "tdtype": null,
+      "pix": "rgb24",
+      "alpha_pix": "bgra",
+      "depth": 8,
+      "group": "无损",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "utvideo": {
+      "label": "Ut Video · 无损",
+      "containers": [
+        "avi",
+        "mkv"
+      ],
+      "encoder": "utvideo",
+      "td": null,
+      "tdtype": null,
+      "pix": "gbrp",
+      "alpha_pix": "gbrap",
+      "depth": 8,
+      "group": "无损",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "v210": {
+      "label": "Uncompressed 4:2:2 · 10-bit",
+      "containers": [
+        "mov",
+        "avi"
+      ],
+      "encoder": "v210",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv422p10le",
+      "alpha_pix": null,
+      "depth": 10,
+      "group": "无压缩",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "rawvideo": {
+      "label": "Uncompressed RGB / RGBA",
+      "containers": [
+        "mov",
+        "avi"
+      ],
+      "encoder": "rawvideo",
+      "td": null,
+      "tdtype": null,
+      "pix": "rgb24",
+      "alpha_pix": "argb",
+      "depth": 8,
+      "group": "无压缩",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "mpeg1": {
+      "label": "MPEG-1 Video",
+      "containers": [
+        "mpg"
+      ],
+      "encoder": "mpeg1video",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "兼容",
+      "options": [],
+      "force_alpha": false,
+      "constraint": "mpeg"
+    },
+    "mpeg2": {
+      "label": "MPEG-2 Video",
+      "containers": [
+        "mpg",
+        "ts",
+        "mxf"
+      ],
+      "encoder": "mpeg2video",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "兼容",
+      "options": [],
+      "force_alpha": false,
+      "constraint": "mpeg"
+    },
+    "mpeg2422": {
+      "label": "MPEG-2 4:2:2 · 50 Mb/s",
+      "containers": [
+        "mxf",
+        "mov",
+        "ts"
+      ],
+      "encoder": "mpeg2video",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv422p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "广播",
+      "options": [
+        "-profile:v",
+        "0",
+        "-b:v",
+        "50M",
+        "-minrate",
+        "50M",
+        "-maxrate",
+        "50M",
+        "-bufsize",
+        "17825792",
+        "-flags",
+        "+ildct+ilme"
+      ],
+      "force_alpha": false,
+      "constraint": "broadcast"
+    },
+    "flv1": {
+      "label": "FLV / Sorenson Spark",
+      "containers": [
+        "flv"
+      ],
+      "encoder": "flv",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "兼容",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "wmv2": {
+      "label": "Windows Media Video 8",
+      "containers": [
+        "wmv",
+        "avi"
+      ],
+      "encoder": "wmv2",
+      "td": null,
+      "tdtype": null,
+      "pix": "yuv420p",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "兼容",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    },
+    "gif": {
+      "label": "GIF · 调色板动图",
+      "containers": [
+        "gif"
+      ],
+      "encoder": "gif",
+      "td": "gif",
+      "tdtype": null,
+      "pix": "rgb8",
+      "alpha_pix": null,
+      "depth": 8,
+      "group": "动图",
+      "options": [],
+      "force_alpha": false,
+      "constraint": null
+    }
+  }
+}

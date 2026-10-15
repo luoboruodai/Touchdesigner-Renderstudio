@@ -1,0 +1,855 @@
+{
+ "version": "1.3.0",
+ "environment": "macOS / TouchDesigner 2025.31550",
+ "date": "2026-10-15",
+ "unit_rules": {
+  "passed": 25,
+  "failed": 0,
+  "reused_unchanged_evidence": "1.2 的 19 项规则口径并入 25 项；音频计划/合成/校验规则为 1.3 新增"
+ },
+ "host_codec_samples": [
+  {
+   "codec": "h264",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "h264",
+     "profile": "High",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "h264vt",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "h264",
+     "profile": "High",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "h264rgb",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "h264",
+     "profile": "High 4:4:4 Predictive",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuvj444p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "h265",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "hevc",
+     "profile": "Main",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "h265vt",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "hevc",
+     "profile": "Main",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "hevc10",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "hevc",
+     "profile": "Main 10",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "av1",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "av1",
+     "profile": "Main",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "vp8",
+   "container": "webm",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "vp8",
+     "profile": "0",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "vp9",
+   "container": "webm",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "vp9",
+     "profile": "Profile 0",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "mpeg4",
+   "container": "mp4",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "mpeg4",
+     "profile": "Simple Profile",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "prores_proxy",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "prores",
+     "profile": "Proxy",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "prores_lt",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "prores",
+     "profile": "LT",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "prores422",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "prores",
+     "profile": "Standard",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "prores",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "prores",
+     "profile": "HQ",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "prores4444",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "prores",
+     "profile": "4444",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuva444p12le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "prores_xq",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "prores",
+     "profile": "XQ",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuva444p12le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "dnxhr_lb",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "dnxhd",
+     "profile": "DNXHR LB",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "dnxhr_sq",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "dnxhd",
+     "profile": "DNXHR SQ",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "dnxhr_hq",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "dnxhd",
+     "profile": "DNXHR HQ",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "dnxhr_hqx",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "dnxhd",
+     "profile": "DNXHR HQX",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "dnxhr_444",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "dnxhd",
+     "profile": "DNXHR 444",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv444p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "cineform",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "cfhd",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "gbrap12le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "rle",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "qtrle",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "rgb24",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "hap",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "hap",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "rgb0",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "hapq",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "hap",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "rgb0",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "mjpeg",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "mjpeg",
+     "profile": "Baseline",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuvj420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "jpeg2000",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "jpeg2000",
+     "profile": "0",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv444p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "ffv1",
+   "container": "mkv",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "ffv1",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "bgr0",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "ffv1_16",
+   "container": "mkv",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "ffv1",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "gbrp16le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "huffyuv",
+   "container": "avi",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "huffyuv",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "bgr0",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "utvideo",
+   "container": "avi",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "utvideo",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "gbrp",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "v210",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "v210",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv422p10le",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "rawvideo",
+   "container": "mov",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "rawvideo",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "rgb24",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "mpeg1",
+   "container": "mpg",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "mpeg1video",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "60/1",
+     "nb_read_frames": "3",
+     "side_data_list": [
+      {}
+     ]
+    }
+   ]
+  },
+  {
+   "codec": "mpeg2",
+   "container": "mpg",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "mpeg2video",
+     "profile": "Main",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3",
+     "side_data_list": [
+      {}
+     ]
+    }
+   ]
+  },
+  {
+   "codec": "mpeg2422",
+   "container": "mxf",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "mpeg2video",
+     "profile": "4:2:2",
+     "width": 1280,
+     "height": 720,
+     "pix_fmt": "yuv422p",
+     "r_frame_rate": "30/1",
+     "nb_read_frames": "3",
+     "side_data_list": [
+      {}
+     ]
+    }
+   ]
+  },
+  {
+   "codec": "flv1",
+   "container": "flv",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "flv1",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "353/12",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "wmv2",
+   "container": "wmv",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "wmv2",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "yuv420p",
+     "r_frame_rate": "353/12",
+     "nb_read_frames": "3"
+    }
+   ]
+  },
+  {
+   "codec": "gif",
+   "container": "gif",
+   "pass": true,
+   "decoded": [
+    {
+     "codec_name": "gif",
+     "width": 320,
+     "height": 180,
+     "pix_fmt": "bgra",
+     "r_frame_rate": "50/1",
+     "nb_read_frames": "3"
+    }
+   ]
+  }
+ ],
+ "decoded_codec_identity": {
+  "passed": 39,
+  "failed": 0
+ },
+ "representative_containers": [
+  "avi",
+  "flv",
+  "gif",
+  "mkv",
+  "mov",
+  "mp4",
+  "mpg",
+  "mxf",
+  "ts",
+  "webm",
+  "wmv"
+ ],
+ "repeatability": {
+  "frames": 48,
+  "equal": 48,
+  "distinct": 42
+ },
+ "final_artifact_tests": [
+  {
+   "test": "renamed_reparented_hevc",
+   "pass": true
+  },
+  {
+   "test": "renamed_native_alpha",
+   "pass": true
+  },
+  {
+   "test": "deleted_export_restores_active_source",
+   "pass": true
+  }
+ ],
+ "integrated_final_smoke": {
+  "pass": true,
+  "decoded": {
+   "codec_name": "h264",
+   "width": 1920,
+   "height": 1080,
+   "r_frame_rate": "30/1",
+   "nb_read_frames": "5"
+  },
+  "source_state_restored": true
+ },
+ "active_encoder_cancel": true,
+ "native_menu": {
+  "container": "mov",
+  "query": "ProRes",
+  "count": "6 项 · 第 1/1 页",
+  "slots": 8,
+  "visible_labels": [
+   "ProRes 422 Proxy",
+   "ProRes 422 LT",
+   "ProRes 422",
+   "ProRes 422 HQ",
+   "ProRes 4444 · Alpha",
+   "ProRes 4444 XQ · Alpha"
+  ],
+  "source_callback": true
+ },
+ "performance": {
+  "before": {
+   "idle_source_sync": {
+    "samples": 100,
+    "mean_ms": 0.13257164042443037,
+    "p95_ms": 0.12174993753433228,
+    "max_ms": 4.4697909615933895,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "status_ui_update": {
+    "samples": 100,
+    "mean_ms": 0.030227918177843094,
+    "p95_ms": 0.03283401019871235,
+    "max_ms": 0.0827498733997345,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "full_ui_update": {
+    "samples": 30,
+    "mean_ms": 0.29168615583330393,
+    "p95_ms": 0.4193750210106373,
+    "max_ms": 0.4621250554919243,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "source_graph_walk": {
+    "samples": 100,
+    "mean_ms": 0.009532864205539227,
+    "p95_ms": 0.01100008375942707,
+    "max_ms": 0.04041590727865696,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "host": {
+    "build": "2025.31550",
+    "source_size": [
+     1920,
+     1080
+    ],
+    "nodes": 817,
+    "version": "1.1.0 / TD2025"
+   }
+  },
+  "after": {
+   "idle_source_sync": {
+    "samples": 100,
+    "mean_ms": 0.011859200894832611,
+    "p95_ms": 0.012292061001062393,
+    "max_ms": 0.03791600465774536,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "status_ui_update": {
+    "samples": 100,
+    "mean_ms": 0.03332503139972687,
+    "p95_ms": 0.03600004129111767,
+    "max_ms": 0.10404200293123722,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "full_ui_update": {
+    "samples": 30,
+    "mean_ms": 0.2888875314965844,
+    "p95_ms": 0.38766697980463505,
+    "max_ms": 0.4614591598510742,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "source_graph_walk": {
+    "samples": 100,
+    "mean_ms": 0.011867389548569918,
+    "p95_ms": 0.01654098741710186,
+    "max_ms": 0.058999983593821526,
+    "scope": "same-host warmed callable; not end-to-end GUI latency"
+   },
+   "host": {
+    "build": "2025.31550",
+    "source_size": [
+     1920,
+     1080
+    ],
+    "nodes": 775,
+    "version": "1.2.0 / TD2025"
+   }
+  },
+  "final_ui": {
+   "samples": 30,
+   "mean_ms": 0.39443192072212696,
+   "p95_ms": 0.3784580621868372,
+   "max_ms": 2.9486671555787325,
+   "scope": "final UI warmed call; not screen draw or render latency"
+  },
+  "idle_sync_mean_reduction_pct": 91.05449637881438
+ },
+ "scope": "Short local samples, not every container/codec cross-product, platform, color/alpha, or long-duration stress combination. 1.3 adds offline per-frame audio synthesis cases (9 host cases, decoded and verified); 1.2 codec evidence unchanged.",
+ "offline_audio_synthesis": {
+  "implemented": true,
+  "when": "2026-10-15 21:17",
+  "overall_pass": true,
+  "evidence": "dev/host_results.json（TD 2025.31550 宿主实测，ffprobe/PCM 实际解码核验）",
+  "cases": [
+   {
+    "name": "a_native_mov_prores",
+    "pass": true,
+    "video": "prores 640x360 5f (native -c:v copy)",
+    "audio": "pcm_s16le 48000Hz 2ch",
+    "samples": "8000/8000",
+    "impulse_position": "100 vs 100（样本级对齐，误差0）",
+    "manifest_audio": {
+     "offset_samples": 8000,
+     "samples": 8000,
+     "padded_samples": 0
+    }
+   },
+   {
+    "name": "b_ffmpeg_mp4_h264",
+    "pass": true,
+    "video": "h264 640x360 3f",
+    "audio": "aac 48000Hz 2ch",
+    "samples": "4800/4800"
+   },
+   {
+    "name": "c_single_frame_mp4",
+    "pass": true,
+    "video": "h264 1f",
+    "audio": "aac 48000Hz 2ch",
+    "samples": "1600/1600"
+   },
+   {
+    "name": "d_mkv_ffv1_2997_44k_short_source",
+    "pass": true,
+    "video": "ffv1 10f @29.97",
+    "audio": "flac 44100Hz 1ch",
+    "samples": "14715/14715",
+    "note": "源短缺部分尾部补静音（tail_max=0.0），累计整数边界"
+   },
+   {
+    "name": "e_exr16_ffv1_16bit_mkv",
+    "pass": true,
+    "video": "ffv1 16-bit 3f（EXR16 中间序列）",
+    "audio": "flac 48000Hz 2ch",
+    "samples": "4800/4800",
+    "note": "EXR 不内嵌音频，成片阶段混入；解除 1.2 的共存限制"
+   },
+   {
+    "name": "f_cancel_encode_vp9_webm",
+    "pass": true,
+    "note": "活动编码中取消 → 已取消，manifest 一致，中间素材保留"
+   },
+   {
+    "name": "g1_render_timeslice_rejected",
+    "pass": true,
+    "message": "逐帧渲染需要含完整数据的非时间切片音频CHOP（如 Wave/Script CHOP 或经缓存录制的数据；Audio File In 为时间切片，不可直接使用）；实时输入请改用实时录制"
+   },
+   {
+    "name": "g2_record_fullchop_rejected",
+    "pass": true,
+    "message": "实时录制须使用开启Time Slice的音频CHOP"
+   }
+  ],
+  "host_facts": [
+   "Audio File In CHOP 在 TD2025.31550 恒为时间切片（timeslice=False 亦无效），渲染模式须用 Wave/Script CHOP 或缓存录制数据",
+   "CHOP.numpyArray() 与 scriptOp.copyNumpyArray 的数组轴向为 (channels, samples)",
+   "TD 参数 DAT 回调延迟一帧执行，连续设置联动菜单需手动触发 changed() 同步"
+  ],
+  "limits": "16-bit PCM WAV 中间文件；源采样率直通；不含重采样/多轨混音；实时输入仍走实时录制模式"
+ }
+}

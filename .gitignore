@@ -1,0 +1,4 @@
+.DS_Store
+renders/
+*.bkp*
+*.[0-9].toe

@@ -1,0 +1,523 @@
+{
+ "overall_pass": true,
+ "when": "2026-10-15 21:17:24",
+ "results": [
+  {
+   "name": "a_native_mov_prores_off5_9",
+   "checks": [
+    [
+     "video_frames",
+     true,
+     {
+      "index": 0,
+      "codec_name": "prores",
+      "codec_type": "video",
+      "width": 640,
+      "height": 360,
+      "nb_read_frames": "5"
+     }
+    ],
+    [
+     "video_codec",
+     true,
+     "prores"
+    ],
+    [
+     "audio_present",
+     true,
+     {
+      "index": 1,
+      "codec_name": "pcm_s16le",
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 2,
+      "nb_read_frames": "8"
+     }
+    ],
+    [
+     "audio_codec",
+     true,
+     "pcm_s16le"
+    ],
+    [
+     "audio_rate",
+     true,
+     "48000"
+    ],
+    [
+     "audio_channels",
+     true,
+     2
+    ],
+    [
+     "audio_samples",
+     true,
+     "8000 vs 8000"
+    ],
+    [
+     "impulse_position",
+     true,
+     "100 vs 100"
+    ],
+    [
+     "silent_head",
+     true,
+     0.0
+    ]
+   ],
+   "pass": true,
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "prores",
+     "codec_type": "video",
+     "width": 640,
+     "height": 360,
+     "nb_read_frames": "5"
+    },
+    {
+     "index": 1,
+     "codec_name": "pcm_s16le",
+     "codec_type": "audio",
+     "sample_rate": "48000",
+     "channels": 2,
+     "nb_read_frames": "8"
+    }
+   ],
+   "decoded": {
+    "rate": 48000,
+    "ch": 2,
+    "samples": 8000,
+    "first_loud": 100,
+    "head_max": 0.0,
+    "tail_max": 0.0
+   }
+  },
+  {
+   "name": "a_native_mov_prores_off5_9_manifest",
+   "checks": [
+    [
+     "manifest_exists",
+     true,
+     "<project>/RenderStudio_1.3/dev/test_out/a_native_mov_prores_off5_9.mov.json"
+    ],
+    [
+     "audio_block",
+     true,
+     {
+      "channels": 2,
+      "rate": 48000,
+      "offset_samples": 8000,
+      "samples": 8000,
+      "padded_samples": 0,
+      "codec": "pcm_s16le"
+     }
+    ],
+    [
+     "audio_rate",
+     true,
+     48000
+    ],
+    [
+     "audio_offset_samples",
+     true,
+     8000
+    ],
+    [
+     "audio_samples",
+     true,
+     8000
+    ],
+    [
+     "audio_padded_samples",
+     true,
+     0
+    ],
+    [
+     "audio_codec",
+     true,
+     "pcm_s16le"
+    ],
+    [
+     "audio_channels",
+     true,
+     2
+    ]
+   ],
+   "pass": true,
+   "manifest": {
+    "version": "1.3.0",
+    "result": "完成",
+    "frames": 5,
+    "fps": 30.0,
+    "start": 5,
+    "end": 9,
+    "width": 640,
+    "height": 360,
+    "capture_precision": "native_or_8bit",
+    "encode_ms": 198.08445799935726,
+    "mode": "render",
+    "container": "mov",
+    "backend": "native",
+    "repeatable": false,
+    "reset_frame": 1,
+    "render_seed": 1.0,
+    "codec": "prores422",
+    "audio": {
+     "channels": 2,
+     "rate": 48000,
+     "offset_samples": 8000,
+     "samples": 8000,
+     "padded_samples": 0,
+     "codec": "pcm_s16le"
+    },
+    "error": null
+   }
+  },
+  {
+   "name": "b_ffmpeg_mp4_h264_0_2",
+   "checks": [
+    [
+     "video_frames",
+     true,
+     {
+      "index": 0,
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 640,
+      "height": 360,
+      "nb_read_frames": "3"
+     }
+    ],
+    [
+     "video_codec",
+     true,
+     "h264"
+    ],
+    [
+     "audio_present",
+     true,
+     {
+      "index": 1,
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 2,
+      "nb_read_frames": "5"
+     }
+    ],
+    [
+     "audio_codec",
+     true,
+     "aac"
+    ],
+    [
+     "audio_rate",
+     true,
+     "48000"
+    ],
+    [
+     "audio_channels",
+     true,
+     2
+    ],
+    [
+     "audio_samples",
+     true,
+     "4800 vs 4800"
+    ],
+    [
+     "impulse_position",
+     true,
+     "0 vs 0"
+    ]
+   ],
+   "pass": true,
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "h264",
+     "codec_type": "video",
+     "width": 640,
+     "height": 360,
+     "nb_read_frames": "3"
+    },
+    {
+     "index": 1,
+     "codec_name": "aac",
+     "codec_type": "audio",
+     "sample_rate": "48000",
+     "channels": 2,
+     "nb_read_frames": "5"
+    }
+   ],
+   "decoded": {
+    "rate": 48000,
+    "ch": 2,
+    "samples": 4800,
+    "first_loud": 0,
+    "head_max": 0.6314849853515625,
+    "tail_max": 0.0
+   }
+  },
+  {
+   "name": "c_single_frame_mp4",
+   "checks": [
+    [
+     "video_frames",
+     true,
+     {
+      "index": 0,
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 640,
+      "height": 360,
+      "nb_read_frames": "1"
+     }
+    ],
+    [
+     "audio_present",
+     true,
+     {
+      "index": 1,
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 2,
+      "nb_read_frames": "2"
+     }
+    ],
+    [
+     "audio_codec",
+     true,
+     "aac"
+    ],
+    [
+     "audio_samples",
+     true,
+     "1600 vs 1600"
+    ]
+   ],
+   "pass": true,
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "h264",
+     "codec_type": "video",
+     "width": 640,
+     "height": 360,
+     "nb_read_frames": "1"
+    },
+    {
+     "index": 1,
+     "codec_name": "aac",
+     "codec_type": "audio",
+     "sample_rate": "48000",
+     "channels": 2,
+     "nb_read_frames": "2"
+    }
+   ],
+   "decoded": {
+    "rate": 48000,
+    "ch": 2,
+    "samples": 1600,
+    "first_loud": null,
+    "head_max": 0.0,
+    "tail_max": 0.0
+   }
+  },
+  {
+   "name": "d_mkv_ffv1_2997_44k_short",
+   "checks": [
+    [
+     "audio_present",
+     true,
+     {
+      "index": 1,
+      "codec_name": "flac",
+      "codec_type": "audio",
+      "sample_rate": "44100",
+      "channels": 1,
+      "nb_read_frames": "4"
+     }
+    ],
+    [
+     "audio_codec",
+     true,
+     "flac"
+    ],
+    [
+     "audio_rate",
+     true,
+     "44100"
+    ],
+    [
+     "audio_channels",
+     true,
+     1
+    ],
+    [
+     "audio_samples",
+     true,
+     "14715 vs 14715"
+    ],
+    [
+     "tail_silence",
+     true,
+     0.0
+    ]
+   ],
+   "pass": true,
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "ffv1",
+     "codec_type": "video",
+     "width": 640,
+     "height": 360,
+     "nb_read_frames": "10"
+    },
+    {
+     "index": 1,
+     "codec_name": "flac",
+     "codec_type": "audio",
+     "sample_rate": "44100",
+     "channels": 1,
+     "nb_read_frames": "4"
+    }
+   ],
+   "decoded": {
+    "rate": 44100,
+    "ch": 1,
+    "samples": 14715,
+    "first_loud": 9,
+    "head_max": 0.49993896484375,
+    "tail_max": 0.0
+   }
+  },
+  {
+   "name": "e_exr16_ffv1_16_mkv",
+   "checks": [
+    [
+     "video_frames",
+     true,
+     {
+      "index": 0,
+      "codec_name": "ffv1",
+      "codec_type": "video",
+      "width": 640,
+      "height": 360,
+      "nb_read_frames": "3"
+     }
+    ],
+    [
+     "audio_present",
+     true,
+     {
+      "index": 1,
+      "codec_name": "flac",
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 2,
+      "nb_read_frames": "2"
+     }
+    ],
+    [
+     "audio_codec",
+     true,
+     "flac"
+    ],
+    [
+     "audio_samples",
+     true,
+     "4800 vs 4800"
+    ]
+   ],
+   "pass": true,
+   "streams": [
+    {
+     "index": 0,
+     "codec_name": "ffv1",
+     "codec_type": "video",
+     "width": 640,
+     "height": 360,
+     "nb_read_frames": "3"
+    },
+    {
+     "index": 1,
+     "codec_name": "flac",
+     "codec_type": "audio",
+     "sample_rate": "48000",
+     "channels": 2,
+     "nb_read_frames": "2"
+    }
+   ],
+   "decoded": {
+    "rate": 48000,
+    "ch": 2,
+    "samples": 4800,
+    "first_loud": 0,
+    "head_max": 0.899932861328125,
+    "tail_max": 0.0
+   }
+  },
+  {
+   "name": "f_cancel_encode_vp9_webm",
+   "checks": [
+    [
+     "cancel_sent",
+     true,
+     true
+    ],
+    [
+     "final_state",
+     true,
+     "已取消"
+    ],
+    [
+     "manifest_written",
+     true,
+     "<project>/RenderStudio_1.3/dev/test_out/f_cancel_encode_vp9_webm.webm.json"
+    ],
+    [
+     "manifest_result_matches",
+     true,
+     "已取消"
+    ]
+   ],
+   "pass": true
+  },
+  {
+   "name": "g1_render_timeslice_rejected",
+   "checks": [
+    [
+     "state",
+     true,
+     "检查未通过"
+    ],
+    [
+     "message",
+     true,
+     "逐帧渲染需要含完整数据的非时间切片音频CHOP（如 Wave/Script CHOP 或经缓存录制的数据；Audio File In 为时间切片，不可直接使用）；实时输入请改用实时录制"
+    ]
+   ],
+   "pass": true
+  },
+  {
+   "name": "g2_record_fullchop_rejected",
+   "checks": [
+    [
+     "state",
+     true,
+     "检查未通过"
+    ],
+    [
+     "message",
+     true,
+     "实时录制须使用开启Time Slice的音频CHOP"
+    ]
+   ],
+   "pass": true
+  }
+ ]
+}
