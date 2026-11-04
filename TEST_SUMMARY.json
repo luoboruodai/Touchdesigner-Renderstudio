@@ -1,11 +1,29 @@
 {
- "version": "1.3.0",
+ "version": "1.4.0",
  "environment": "macOS / TouchDesigner 2025.31550",
- "date": "2026-10-15",
+ "date": "2026-11-04",
  "unit_rules": {
-  "passed": 25,
+  "passed": 31,
   "failed": 0,
-  "reused_unchanged_evidence": "1.2 的 19 项规则口径并入 25 项；音频计划/合成/校验规则为 1.3 新增"
+  "reused_unchanged_evidence": "1.3 的 25 项规则保留；下载清单、安装复用、失败清理、取消、ZIP 与协议白名单为 1.4 新增"
+ },
+ "bootstrap_1_4": {
+  "ffmpeg_version": "9.0.2",
+  "required_encoders": 31,
+  "real_download_arm64": true,
+  "real_download_amd64_rosetta": true,
+  "signature_and_system_dependencies_pass": true,
+  "real_h264_aac_encode_decode_pass": true,
+  "host_bootstrap_results": "dev/host_bootstrap_results.json",
+  "host_overall_pass": true,
+  "managed_render": "640x360 / 30fps / 3 frames H.264 + AAC",
+  "second_run_reuse_pass": true,
+  "independent_tox_results": "dev/host_tox_results.json",
+  "independent_tox_overall_pass": true,
+  "legacy_absent": true,
+  "final_toe_cold_start_pass": true,
+  "native_cancel_click_not_covered": true,
+  "native_intel_mac_not_covered": true
  },
  "host_codec_samples": [
   {

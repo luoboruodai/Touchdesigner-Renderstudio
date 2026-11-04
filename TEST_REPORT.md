@@ -1,4 +1,69 @@
-# Render Studio 1.3 测试报告
+# Render Studio 1.4 测试报告
+
+日期：2026-11-04（1.4）；2026-10-15（1.3 基线，保留于下文）。环境：**macOS / TouchDesigner 2025.31550**。1.4 独立 TOX 不再包含 `Legacy_2023_original`；原创插件源码与独立 TOX 采用 MIT，代码雨与历史素材不随之重新授权。
+
+## 1.4 自动 FFmpeg 配置与原创边界
+
+### 证据分层
+
+- **纯规则**：`source/test_rules.py` **31/31**，含既有规则与下载清单、安装复用、失败清理、取消、ZIP 成员和协议白名单。
+- **真实分发包**：分别从 Martin Riedl 构建服务器取得 macOS arm64 / amd64 的 FFmpeg 9.0.2 与 ffprobe ZIP，固定字节数和 SHA-256；苹果代码签名通过，`otool` 仅见系统库。两种包均覆盖本项目 **31 项**视频／音频编码器；arm64 原生执行，amd64 在 Apple Silicon 的 Rosetta 环境执行。
+- **真实编码／解码**：下载的 arm64 FFmpeg 实际生成 320×180、30fps 三帧 H.264+AAC，配套 ffprobe 回读视频三帧、AAC 48kHz。
+- **宿主执行**：隔离 TD 实例中隐藏系统 FFmpeg 与普通路径，使用独立受管目录完成自动下载、配置、检查续接与真实导出。
+- **最终产物**：TOX 换父容器、改名重导入后实际导出；最终无钩子 TOE 冷启动成功；预览图使用验收完成后的相对路径展示，不包含本机私有路径。
+
+### A. 真实下载与安装核心
+
+- 发布代码 `export_core.install_managed()` 在独立目录完成真实联网下载、解包、SHA-256、代码签名、系统依赖和 31 项编码器验证，最终 `verify_managed_install` 通过。
+- 第二次调用 `install_managed()` 直接复用已安装文件，没有重复下载。
+- 受管目录包含 `bin/ffmpeg`、`bin/ffprobe`、`share/COPYING.GPLv3`、`share/versions.txt` 与 `NOTICE.txt`；NOTICE 保存精确 URL、字节数、哈希、上游源码和构建脚本入口。
+- 失败与取消测试确认暂存及安装锁清理，不留下半配置目录。未把旧失败诊断计入通过数。
+
+### B. TD 宿主自动配置与导出
+
+结构化结果：`dev/host_bootstrap_results.json`（`overall_pass=true`）。首次干净下载与后续复用均完成检查；最终回读包含：
+
+| 用例 | 实测结论 |
+|---|---|
+| 系统 FFmpeg 隐藏 | 仅隔离组件内禁用 PATH 与普通候选，使用独立受管目录，不修改系统安装 |
+| 自动下载与配置 | arm64 包下载完成，自动设置受管路径并继续「检查设置」；状态为就绪 |
+| 签名、版本、依赖与编码器 | TD 内调用 `verify_managed_install` 全过；许可和构建 NOTICE 存在 |
+| 真实导出 | 640×360、30fps、3 帧 H.264 + AAC，完成状态和时间线恢复正确 |
+| 实际解码 | 视频 `h264`、640×360、`nb_read_frames=3`；音频 AAC、48kHz、双声道 |
+| Manifest | `version=1.4.0`、`backend=ffmpeg`、三帧、音频 4800 样本、无错误 |
+| 第二次复用 | 再次检查无后台下载任务、无 busy，受管路径不变 |
+
+首次自动配置阶段的 `initialize()` 调用不再清空活动任务；同一保护覆盖后续渲染阶段。TD 内嵌 Python 使用 certifi／macOS 系统 CA，不关闭 TLS 校验。后台线程只执行纯 Python 下载，TD 模块和编码器清单在主线程取得。
+
+### C. 独立 TOX 改名与换父容器
+
+结构化结果：`dev/host_tox_results.json`（`overall_pass=true`）。
+
+- 在新父容器中加载最终 `RenderStudio_1_4.tox` 并改名为 `rs14_independent`；`Legacy_2023_original` 不存在，版本为 `1.4.0 / TD2025`。
+- 用 TD `relativePath()` 生成相对源引用并成功解析；复用受管 FFmpeg 时没有新下载。
+- 实际完成三帧 H.264、640×360 导出，`nb_read_frames=3`；manifest 为 1.4.0 / FFmpeg 后端。
+
+### D. 已定位并处理的问题
+
+- 构建元数据中含空格但未加引号的 Scope 文案曾使后续参数停止注册；已修正并实际确认完整参数页。
+- TD 内嵌 Python 默认 CA 不可用曾导致 TLS 拒绝；已改为 certifi／系统 CA，未关闭验证。
+- 后台线程曾读取 TD `op()`；已改为主线程预先获取模块与编码器清单。
+- 重复 `initialize()` 曾在下载或渲染中清空任务；现活动任务阶段忽略重复初始化，最终自动配置与独立导出均通过。
+- 预览图曾在屏幕外或含本机测试路径；最终只调整验证窗口位置与完成后的展示路径，不改测试输出内容。
+
+### 1.4 未覆盖与限制
+
+- 首次无系统 FFmpeg 时需要联网；离线机器须预置系统 FFmpeg、有效手动路径或已配置的受管目录。
+- 自动包目前仅 macOS arm64 / amd64。amd64 已在 Rosetta 执行，**没有独立原生 Intel Mac 实测**；Windows、旧版 TD 和其他架构未覆盖。
+- 下载取消与失败回滚有纯规则和清理证据，**没有单独用真实指针点击下载中的取消按钮**。
+- 未重新穷举 1.2 的 39 项编码配置；同源旧证据继续有效，1.4 改动面已单独实测。
+- 长片压力、磁盘写满、所有分辨率／色彩／Alpha 交叉组合及完整广播规范仍未覆盖。
+
+最终预览：`preview/RenderStudio_1.4.png`。最终 TOX/TOE 无测试钩子，7 个模块与 `source/` 逐字节一致；校验值见 `SHA256SUMS`。
+
+---
+
+# 附：Render Studio 1.3 基线测试报告
 
 日期：2026-10-15（1.3）；2026-10-14（1.2 基线，保留于下文）。环境：**macOS / TouchDesigner 2025.31550**；使用本机已有 FFmpeg 和 ffprobe，无新增安装、许可证修改或上传。
 

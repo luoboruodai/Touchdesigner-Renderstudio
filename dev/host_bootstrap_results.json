@@ -1,0 +1,102 @@
+{
+  "overall_pass": true,
+  "when": "2026-11-04 17:45:40",
+  "environment": "macOS / TouchDesigner 2025.31550",
+  "checks": [
+    {
+      "name": "preexisting_managed_install",
+      "pass": true,
+      "detail": "<managed>/9.0.2/arm64/bin/ffmpeg"
+    },
+    {
+      "name": "bootstrap_check_completed",
+      "pass": true,
+      "detail": "就绪: 检查通过 · 640 × 360 · 3 帧 · 0.10 秒 · 音频 48000Hz，同步 4,800 样本"
+    },
+    {
+      "name": "managed_path_selected",
+      "pass": true,
+      "detail": "<managed>/9.0.2/arm64/bin/ffmpeg"
+    },
+    {
+      "name": "managed_signature_version_dependencies_encoders",
+      "pass": true,
+      "detail": "verified inside TD"
+    },
+    {
+      "name": "license_and_build_notice",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "managed_render_completed",
+      "pass": true,
+      "detail": "完成: 完成 3 帧 · 0.10 秒；时间线已恢复"
+    },
+    {
+      "name": "decoded_video",
+      "pass": true,
+      "detail": {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 640,
+        "height": 360,
+        "nb_read_frames": "3"
+      }
+    },
+    {
+      "name": "decoded_audio",
+      "pass": true,
+      "detail": {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 2,
+        "nb_read_frames": "5"
+      }
+    },
+    {
+      "name": "manifest_1_4_managed",
+      "pass": true,
+      "detail": {
+        "version": "1.4.0",
+        "result": "完成",
+        "frames": 3,
+        "fps": 30.0,
+        "start": 0,
+        "end": 2,
+        "width": 640,
+        "height": 360,
+        "capture_precision": "native_or_8bit",
+        "encode_ms": 437.77391700132284,
+        "mode": "render",
+        "container": "mp4",
+        "backend": "ffmpeg",
+        "repeatable": false,
+        "reset_frame": 1,
+        "render_seed": 1.0,
+        "codec": "h264",
+        "audio": {
+          "channels": 2,
+          "rate": 48000,
+          "offset_samples": 0,
+          "samples": 4800,
+          "padded_samples": 0,
+          "codec": "aac"
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "second_check_reuses_without_busy",
+      "pass": true,
+      "detail": "检查通过 · 640 × 360 · 3 帧 · 0.10 秒 · 音频 48000Hz，同步 4,800 样本"
+    },
+    {
+      "name": "managed_path_stable",
+      "pass": true,
+      "detail": "<managed>/9.0.2/arm64/bin/ffmpeg"
+    }
+  ],
+  "managed_ffmpeg": "<managed>/9.0.2/arm64/bin/ffmpeg"
+}

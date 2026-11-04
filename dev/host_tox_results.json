@@ -1,0 +1,72 @@
+{
+  "overall_pass": true,
+  "when": "2026-11-04 17:51:11",
+  "checks": [
+    {
+      "name": "legacy_absent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "version_1_4",
+      "pass": true,
+      "detail": "1.4.0 / TD2025"
+    },
+    {
+      "name": "relative_source_after_rename",
+      "pass": true,
+      "detail": "../rs14_noise"
+    },
+    {
+      "name": "managed_reuse_without_download",
+      "pass": true,
+      "detail": "检查通过 · 640 × 360 · 3 帧 · 0.10 秒"
+    },
+    {
+      "name": "managed_path_selected",
+      "pass": true,
+      "detail": "<managed>/9.0.2/arm64/bin/ffmpeg"
+    },
+    {
+      "name": "renamed_tox_render_completed",
+      "pass": true,
+      "detail": "完成: 完成 3 帧 · 0.10 秒；时间线已恢复"
+    },
+    {
+      "name": "decoded_three_frames",
+      "pass": true,
+      "detail": {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 640,
+        "height": 360,
+        "nb_read_frames": "3"
+      }
+    },
+    {
+      "name": "manifest_version_backend",
+      "pass": true,
+      "detail": {
+        "version": "1.4.0",
+        "result": "完成",
+        "frames": 3,
+        "fps": 30.0,
+        "start": 0,
+        "end": 2,
+        "width": 640,
+        "height": 360,
+        "capture_precision": "native_or_8bit",
+        "encode_ms": 444.39833400247153,
+        "mode": "render",
+        "container": "mp4",
+        "backend": "ffmpeg",
+        "repeatable": false,
+        "reset_frame": 1,
+        "render_seed": 1.0,
+        "codec": "h264",
+        "audio": null,
+        "error": null
+      }
+    }
+  ]
+}

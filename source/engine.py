@@ -147,10 +147,34 @@ def configure(cfg):
     w.cook(force=True)
     if w.errors():raise core().ExportError(w.errors())
 
+def ffmpeg_required(mode):
+    kind=value('Kind')
+    if kind=='movie' and catalog().select_backend(value('Codec'),value('Container'),value('Backend'))=='ffmpeg':return True
+    return bool(C.par.Audio.eval() and mode=='render')
+
+def prepare_ffmpeg(action,mode):
+    global S,TOKEN
+    if not ffmpeg_required(mode):return False
+    try:encoder().executable();return False
+    except Exception as exc:
+        if '未找到FFmpeg' not in str(exc):
+            status(str(exc),'检查未通过');refresh_ui();return True
+    TOKEN+=1
+    S=dict(stage='bootstrap',token=TOKEN,cancel=False,bootstrap_action=action,mode=mode)
+    C.par.Busy=True;C.par.Progress=0;C.par.Eta='—'
+    try:
+        encoder().bootstrap_start()
+        status('首次使用需要自动下载并配置 FFmpeg 9.0.2；无需手动安装','配置中')
+        independent_run(tick,TOKEN)
+    except Exception as exc:
+        S=None;C.par.Busy=False;status(str(exc),'检查未通过');refresh_ui()
+    return True
+
 def start(mode=None):
     global S,TOKEN
     if busy():return
     mode=mode or value('Mode')
+    if prepare_ffmpeg('start',mode):return
     saved=None;claimed=False
     try:
         holder=root.fetch(LOCK_KEY,None)
@@ -198,6 +222,21 @@ def tick(token):
     global S
     if not S or token!=S['token']:return
     try:
+        if S['stage']=='bootstrap':
+            if not C.valid:
+                encoder().bootstrap_cancel();S=None;return
+            if S['cancel']:
+                encoder().bootstrap_cancel();S['cancel']=False
+            state,payload=encoder().bootstrap_poll()
+            if state=='working':
+                C.par.Progress=float(payload.get('fraction',0));status(payload.get('message','正在配置 FFmpeg…'),'配置中')
+                refresh_ui(light=True);independent_run(tick,token,frames=3);return
+            action=S['bootstrap_action'];mode=S['mode'];S=None;C.par.Busy=False
+            if state!='ready':
+                C.par.Progress=0;C.par.Eta='—';status(str(payload),'已取消' if state=='cancelled' else '检查未通过');note(str(payload));refresh_ui();return
+            C.par.Progress=0;status('FFmpeg 已配置完成，继续检查…','就绪')
+            if action=='start':return start(mode)
+            return check()
         if not C.valid:
             if not S.get('deleted_cleanup'):
                 S['deleted_cleanup']=True;S['stop_encoder'](S['cfg'])
@@ -265,6 +304,10 @@ def begin_finish(cancelled=False,error=None):
 
 def abort(message):
     if S:
+        if S['stage']=='bootstrap':
+            encoder().bootstrap_cancel();S=None
+            if C.valid:C.par.Busy=False;status(message,'检查未通过');note(message);refresh_ui()
+            return
         if S['stage'] in ('closing','flush','restore','encode','encode_stop'):
             if S['stage'] in ('encode','encode_stop'):encoder().cancel(S['cfg'])
             try:restore_time(S['saved'])
@@ -337,6 +380,8 @@ def complete(message,state):
 
 def cancel():
     if not S:return
+    if S['stage']=='bootstrap':
+        S['cancel']=True;encoder().bootstrap_cancel();status('正在取消 FFmpeg 配置；不会修改现有环境','正在停止');return
     # Terminate an active child immediately on the UI action, rather than waiting for the next progress poll.
     if S['stage']=='encode':
         cfg=S['cfg'];code=cfg['process'].poll()
@@ -351,6 +396,7 @@ def cancel():
 
 def check():
     if busy():return
+    if prepare_ffmpeg('check',value('Mode')):return
     try:
         cfg=settings(value('Mode'))
         if cfg['mode']=='render':
@@ -524,6 +570,7 @@ def refresh_ui(light=False):
 
 def initialize():
     global S,TOKEN
+    if S:return
     S=None;TOKEN+=1
     holder=root.fetch(LOCK_KEY,None)
     if holder and holder.get('path')==C.path:root.unstore(LOCK_KEY)

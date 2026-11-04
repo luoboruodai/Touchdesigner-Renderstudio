@@ -1,22 +1,58 @@
 """Local encoder discovery and compatible FFmpeg jobs; all invocations use argument lists."""
 from pathlib import Path
-import subprocess,shutil,os,time,re
+import subprocess,shutil,os,time,re,threading
 C=me.parent()
 CACHE={}
+BOOT=None
+SYSTEM_CANDIDATES=('/opt/homebrew/bin/ffmpeg','/usr/local/bin/ffmpeg')
 
 def catalog():return C.op('catalog').module
 
 def executable():
     chosen=str(C.par.Ffmpeg.eval()).strip()
-    candidates=[chosen] if chosen else [shutil.which('ffmpeg'),'/opt/homebrew/bin/ffmpeg','/usr/local/bin/ffmpeg']
+    if chosen:
+        path=Path(chosen).expanduser()
+        if path.is_file():return str(path)
+        raise ValueError('手动指定的FFmpeg路径无效；请修正路径，或留空以自动配置')
+    candidates=[shutil.which('ffmpeg'),*SYSTEM_CANDIDATES,core().managed_executable()]
     for item in candidates:
         if item and Path(item).expanduser().is_file():return str(Path(item).expanduser())
-    raise ValueError('未找到FFmpeg；请在高级页指定可执行文件，或选TD原生编码器')
+    raise ValueError('未找到FFmpeg；检查设置或开始导出时将自动下载配置，也可在高级页手动指定')
+
+def required_encoders():
+    registry=catalog()
+    return sorted({s['encoder'] for s in registry.CODECS.values() if s['encoder']}|{c['audio'] for c in registry.CONTAINERS.values() if c['audio']})
+
+def bootstrap_start():
+    global BOOT
+    if BOOT and BOOT['thread'].is_alive():return
+    bootstrap_core=core();required=required_encoders()
+    cancel=threading.Event();progress={'fraction':0.0,'message':'首次使用需要自动下载并配置 FFmpeg 9.0.2'};result={}
+    def work():
+        try:result['path']=bootstrap_core.install_managed(progress=progress.update,cancel_event=cancel,required_encoders=required)
+        except bootstrap_core.BootstrapCancelled as exc:result['cancelled']=True;result['error']=str(exc)
+        except Exception as exc:result['error']=str(exc) or exc.__class__.__name__
+    thread=threading.Thread(target=work,name='RenderStudio-FFmpeg-bootstrap',daemon=True)
+    BOOT=dict(thread=thread,cancel=cancel,progress=progress,result=result)
+    thread.start()
+
+def bootstrap_poll():
+    global BOOT
+    if not BOOT:return 'idle',{}
+    if BOOT['thread'].is_alive():return 'working',BOOT['progress']
+    result=BOOT['result'];BOOT=None
+    if 'path' not in result:
+        return ('cancelled' if result.get('cancelled') else 'error'),result.get('error','FFmpeg自动配置失败')
+    CACHE.clear();C.par.Ffmpeg=result['path']
+    return 'ready',result['path']
+
+def bootstrap_cancel():
+    if BOOT:BOOT['cancel'].set()
 
 def probe():
     path=executable();key=(path,Path(path).stat().st_mtime_ns)
     if key not in CACHE:
-        p=subprocess.run([path,'-hide_banner','-encoders'],capture_output=True,text=True,timeout=10)
+        p=subprocess.run([path,'-hide_banner','-encoders'],capture_output=True,text=True,timeout=30)
         if p.returncode:raise ValueError('FFmpeg能力检测失败：'+p.stderr[-300:])
         names=set(re.findall(r'^\s*[VAS][A-Z.]{5}\s+(\S+)',p.stdout,re.M))
         CACHE[key]=names

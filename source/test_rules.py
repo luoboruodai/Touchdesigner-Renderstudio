@@ -1,4 +1,4 @@
-import unittest,tempfile
+import unittest,tempfile,zipfile
 from pathlib import Path
 import catalog as c
 import export_core as k
@@ -52,4 +52,51 @@ class Rules(unittest.TestCase):
  def test_audio_plan_frame_validation_reused(self):
   with self.assertRaises(k.ExportError):k.audio_plan(-1,9,30,48000,100)
   with self.assertRaises(k.ExportError):k.audio_plan(9,1,30,48000,100)
+
+class BootstrapRules(unittest.TestCase):
+ def fake_download(self,calls):
+  def download(url,dest,sha,size,cancel,progress):
+   calls.append(url)
+   if url.endswith('.zip'):
+    member='ffprobe' if url.endswith('ffprobe.zip') else 'ffmpeg'
+    with zipfile.ZipFile(dest,'w') as bundle:bundle.writestr(member,b'fake-binary')
+   else:dest.write_bytes(b'x'*size)
+   progress(size)
+  return download
+ def fake_verify(self,candidate,required):return True
+ def test_manifest_is_pinned(self):
+  self.assertEqual(set(k.FFMPEG_MANIFEST),{'arm64','amd64'})
+  for arch in ('arm64','amd64'):
+   resources=k.ffmpeg_resources(arch)
+   self.assertEqual(len(resources),4)
+   for name,url,sha,size in resources:self.assertTrue(url.startswith('https://'));self.assertEqual(len(sha),64);self.assertGreater(size,0)
+ def test_install_reuse_and_notice(self):
+  with tempfile.TemporaryDirectory() as d:
+   calls=[];progress=[]
+   path=k.install_managed(d,arch='arm64',progress=progress.append,download_fn=self.fake_download(calls),verify_fn=self.fake_verify)
+   self.assertTrue(Path(path).is_file());self.assertEqual(len(calls),4);self.assertEqual(progress[-1]['fraction'],1.0)
+   notice=Path(d)/'9.0.2'/'arm64'/'NOTICE.txt'
+   self.assertIn(k.FFMPEG_SOURCE_URL,notice.read_text())
+   again=k.install_managed(d,arch='arm64',download_fn=self.fake_download(calls),verify_fn=self.fake_verify)
+   self.assertEqual(path,again);self.assertEqual(len(calls),4)
+ def test_download_failure_cleans_staging_and_lock(self):
+  with tempfile.TemporaryDirectory() as d:
+   def fail(*args):raise k.ExportError('bad hash')
+   with self.assertRaises(k.ExportError):k.install_managed(d,arch='arm64',download_fn=fail,verify_fn=self.fake_verify)
+   self.assertFalse((Path(d)/'9.0.2'/'arm64').exists());self.assertFalse((Path(d)/'.install.lock').exists())
+ def test_cancel_cleans_staging_and_lock(self):
+  with tempfile.TemporaryDirectory() as d:
+   def cancel(*args):raise k.BootstrapCancelled('cancelled')
+   with self.assertRaises(k.BootstrapCancelled):k.install_managed(d,arch='arm64',download_fn=cancel,verify_fn=self.fake_verify)
+   self.assertFalse((Path(d)/'9.0.2'/'arm64').exists());self.assertFalse((Path(d)/'.install.lock').exists())
+ def test_zip_member_allowlist(self):
+  with tempfile.TemporaryDirectory() as d:
+   archive=Path(d)/'bad.zip'
+   with zipfile.ZipFile(archive,'w') as bundle:bundle.writestr('../escape',b'x');bundle.writestr('extra',b'y')
+   with self.assertRaises(k.ExportError):k.extract_single_binary(archive,'ffmpeg',Path(d)/'ffmpeg')
+   self.assertFalse((Path(d)/'ffmpeg').exists())
+ def test_download_rejects_non_https(self):
+  with tempfile.TemporaryDirectory() as d:
+   with self.assertRaises(k.ExportError):k.download_verified('http://example.invalid/ffmpeg',Path(d)/'x','0'*64,1)
+   self.assertFalse((Path(d)/'x').exists())
 if __name__=='__main__':unittest.main(verbosity=2)
