@@ -361,7 +361,7 @@ def extract_windows_binary(archive, name, destination):
     for member in ('bin/' + name, name):
         if member in names:
             return extract_zip_member(archive, member, destination)
-    raise ExportError('FFmpeg ZIP 缺少必需成员：bin/' + name + ' 或 ' + name)
+    raise ExportError('FFmpeg ZIP 缺少必需成员：bin/' + name + ' 或 ' + name + '；实际成员：' + ', '.join(sorted(names)[:40])
 
 
 def verify_pe_arch(binary, expected_machine=0x8664):
