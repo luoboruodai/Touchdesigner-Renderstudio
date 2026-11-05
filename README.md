@@ -91,7 +91,7 @@ Windows ARM64、其他操作系统及旧版 TD 不在当前自动包范围内，
 - **纯规则 38/38**：既有渲染规则、win64 清单、bundle 解包、PE 架构、安装复用、取消与失败清理。
 - **真实 macOS smoke**：下载、安装、版本与编码器验证、三帧 H.264+AAC 编码／解码、第二次复用全部通过。
 - **独立 TOX**：换父容器、改名重导入、相对源引用和真实三帧解码通过。
-- **Windows runner**：GitHub Actions 的 `bootstrap-smoke` 工作流执行真实下载、安装、版本／编码器验证和三帧编码／解码；精确提交与结果见仓库 **Actions**。
+- **Windows runner**：GitHub Actions 的 `bootstrap-smoke` 工作流已在 run [41993984310](https://github.com/luoboruodai/Touchdesigner-Renderstudio/actions/runs/41993984310) 通过真实下载、安装、版本／编码器验证和三帧编码／解码；Windows x86_64 与 macOS arm64 均成功。
 - **最终产物**：TOX 模块与源码逐字节一致，无 Legacy、无测试钩子。
 
 详细证据见 **[测试报告](TEST_REPORT.md)** 与 **[结构化摘要](TEST_SUMMARY.json)**。Windows runner 通过不等同于每一种 Windows 物理机、GPU、旧版 TD 或所有格式组合均已验证。

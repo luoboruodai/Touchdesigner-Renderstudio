@@ -91,7 +91,7 @@ On the tested TD 2025.31550 build, Audio File In CHOP remained time-sliced even 
 - **38/38 pure-rule checks:** existing rendering rules plus the win64 manifest, bundle extraction, PE architecture, installation reuse, cancellation and failure cleanup.
 - **Real macOS smoke:** download, installation, version/encoder verification, three-frame H.264+AAC encode/decode and second-run reuse all pass.
 - **Independent TOX:** re-import under a different parent and a new name, relative source resolution and real three-frame decoding all pass.
-- **Windows runner:** the `bootstrap-smoke` GitHub Actions workflow performs a real download, installation, version/encoder verification and three-frame encode/decode. See **Actions** for the exact commit and result.
+- **Windows runner:** the `bootstrap-smoke` GitHub Actions workflow passed run [41993984310](https://github.com/luoboruodai/Touchdesigner-Renderstudio/actions/runs/41993984310) with a real download, installation, version/encoder verification and three-frame encode/decode on both Windows x86_64 and macOS arm64.
 - **Final artifact:** TOX modules are byte-identical to source, with no Legacy node and no test hooks.
 
 Read the **[test report](TEST_REPORT.md)** and **[structured summary](TEST_SUMMARY.json)** for evidence. A successful Windows runner does not prove every physical Windows machine, GPU, older TD version or format combination has been validated.

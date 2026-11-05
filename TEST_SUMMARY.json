@@ -18,7 +18,19 @@
   "independent_tox_results": "dev/host_tox_results.json",
   "independent_tox_overall_pass": true,
   "windows_ci_workflow": ".github/workflows/bootstrap-smoke.yml",
-  "windows_ci_result": "see GitHub Actions for exact commit and job",
+  "windows_ci_result": {
+   "run_id": 41993984310,
+   "url": "https://github.com/luoboruodai/Touchdesigner-Renderstudio/actions/runs/41993984310",
+   "status": "completed",
+   "conclusion": "success",
+   "head_sha": "ac545a9c3897245114665769181aa933dea710ec",
+   "arch": "win64",
+   "required_encoders": 29,
+   "overall_pass": true,
+   "video": "h264 320x180 / 30fps / 3 frames",
+   "audio": "aac 48000Hz stereo",
+   "second_run_reuse": true
+  },
   "code_rain_toe_included": false,
   "windows_arm64_not_covered": true,
   "physical_windows_ui_not_covered": true
