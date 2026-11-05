@@ -11,8 +11,9 @@ import export_core as core
 
 def main():
     arch = core.host_arch()
-    required = sorted({item['encoder'] for item in catalog.CODECS.values() if item['encoder']} |
-                      {item['audio'] for item in catalog.CONTAINERS.values() if item['audio']})
+    required = core.platform_encoders(arch, sorted({item['encoder'] for item in catalog.CODECS.values() if item['encoder']} |
+                      {item['audio'] for item in catalog.CONTAINERS.values() if item['audio']}))
+    print('BOOTSTRAP_ARCH', arch, 'REQUIRED_ENCODERS', required, flush=True)
     with tempfile.TemporaryDirectory(prefix='renderstudio_bootstrap_') as workspace:
         os.environ['RENDERSTUDIO_FFMPEG_HOME'] = workspace
         ffmpeg = core.install_managed(required_encoders=required)
