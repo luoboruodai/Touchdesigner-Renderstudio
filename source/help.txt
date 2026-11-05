@@ -1,0 +1,25 @@
+RenderStudio 1.5 · 原创 TouchDesigner 渲染组件
+
+使用
+1. 接入最终 TOP，或填写源 TOP。
+2. 选择输出目录、文件名、帧范围和 FPS。
+3. 选择容器、编码器和速度档，点击检查设置，再开始。
+
+FFmpeg 自动配置
+- 首次需要 FFmpeg 且本机没有可用安装时，插件会在后台下载 FFmpeg 9.0.2 与 ffprobe。
+- macOS arm64 / amd64 使用固定 ZIP、字节数与 SHA-256，并校验苹果代码签名和系统依赖。
+- Windows x86_64 使用固定 BtbN 包，校验 SHA-256 与 PE 架构，并在 Windows 上执行版本及编码器检查。
+- 安装位于当前用户的 RenderStudio 私有目录，不需要管理员权限，不修改系统 PATH。
+- 下载阶段可取消；失败或取消不会创建输出文件或改变时间线。
+- 已手动指定的有效路径优先，不会被自动下载覆盖；留空时优先使用已有系统安装。
+- 随包保存 GPLv3 原文、版本信息、上游源码和构建脚本入口。FFmpeg 是独立可执行程序，不与插件链接。
+
+音频
+帧范围渲染使用含完整数据的非时间切片 CHOP；实时录制使用 Time Slice CHOP。
+Audio File In 在本机 TD2025.31550 恒为时间切片，离线渲染前请用 Wave/Script CHOP 或缓存转换。
+
+原创与参考
+RenderStudio 是全新原创渲染组件，仅参考 SkyFengStudio_MovieFileOut_2023X_RC 的工作流。
+独立插件不包含 Legacy_2023_original，不是 SkyFeng 官方版本或其续作。
+原创插件代码与独立 TOX 采用 MIT License；见仓库 LICENSE。
+本发布只提供独立渲染组件，不附带代码雨整合工程。

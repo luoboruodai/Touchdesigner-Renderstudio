@@ -102,6 +102,11 @@ Windows ARM64、其他操作系统及旧版 TD 不在当前自动包范围内，
 - **[格式目录](FORMAT_CATALOG.md)**
 - **[更新记录](CHANGELOG.md)**
 - **[测试报告](TEST_REPORT.md)**
+- **[项目上下文与续工](PROJECT_CONTEXT.md)**
+- **[公开开发与 TOX 构建](docs/DEVELOPMENT.md)**
+- **[项目堵点与排查](docs/TROUBLESHOOTING.md)**
+- **[Agent 开发指南](AGENTS.md)**
+- **[公开交接与隐私边界](docs/PUBLIC_HANDOFF.md)**
 - **[MIT License](LICENSE)**
 - **[第三方声明](THIRD_PARTY_NOTICES.md)**
 - **[宣发文案 / Launch Kit](PROMOTION.md)**

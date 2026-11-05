@@ -102,6 +102,11 @@ Read the **[test report](TEST_REPORT.md)** and **[structured summary](TEST_SUMMA
 - **[Format catalog](FORMAT_CATALOG.md)**
 - **[Changelog](CHANGELOG.md)**
 - **[Test report](TEST_REPORT.md)**
+- **[Project context and handoff](PROJECT_CONTEXT.md)**
+- **[Development and TOX build guide](docs/DEVELOPMENT.md)**
+- **[Technical blockers and troubleshooting](docs/TROUBLESHOOTING.md)**
+- **[Agent development guide](AGENTS.md)**
+- **[Public handoff and privacy boundary](docs/PUBLIC_HANDOFF.md)**
 - **[MIT License](LICENSE)**
 - **[Third-party notices](THIRD_PARTY_NOTICES.md)**
 - **[Launch kit / 宣发文案](PROMOTION.md)**

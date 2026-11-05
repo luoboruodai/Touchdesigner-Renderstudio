@@ -25,6 +25,13 @@
 - **Windows runner**：GitHub Actions run [41993984310](https://github.com/luoboruodai/Touchdesigner-Renderstudio/actions/runs/41993984310)（提交 `ac545a9c3897245114665769181aa933dea710ec`）的 Windows x86_64 与 macOS arm64 作业均成功。win64 使用 29 项必需编码器，实际输出 `overall_pass=true`：三帧 H.264、AAC 48kHz 双声道、第二次复用；精确提交、作业与结果以 GitHub Actions 回读为准，不冒充物理 Windows UI 或所有物理机兼容。
 - **最终产物**：TOX 模块与 `source/` 逐字节一致，无 Legacy、无测试钩子；预览 `preview/RenderStudio_1.5.png` 为真实 1.5 面板。
 
+### 公开续工与去隐私化交接（2026-11-05）
+
+- 新增 `AGENTS.md`、`PROJECT_CONTEXT.md`、公开开发指南、堵点记录和公开／隐私边界说明。公开内容是去隐私化的活跃线，不是私有项目根的完整镜像；原始会话、公司／个人信息、历史素材、凭据、私有测试驱动和本机路径未进入候选。
+- `scripts/apply_source.py` 使用仓库相对源码和显式展开目录，不含私有路径或测试钩子。连续两次应用后的展开树 540 个文件哈希一致；从 Git 暂存工作区独立构建并压回，TOX 与 v1.5.0 附件逐字节一致，SHA-256 仍为 `633c071c1738dad867bd0356a4de7010019af56a27db5e1a0cd402d3d58e845e`。
+- 重新展开核对七个模块与 `source/help.txt` 全部一致；纯规则 **38/38**、36 个相对文档链接和 JSON 解析通过。扫描器合成违规夹具 **6/6** 拒绝；候选 37 文件、暂存索引 37 文件与公开历史 117 个唯一 blob 均 0 命中。自动扫描不冒充所有语义隐私的绝对证明，公开范围另经人工复核。
+- 本次增加公开交接、文档与构建支持，未改变插件运行模块或 TOX，未新建产品版本、标签或 Release。最终提交归档与远端回读记录由私有 `PROJECT.md` 保存，避免在本报告内制造自引用提交身份。
+
 ### 未覆盖与限制
 
 - 首次无系统 FFmpeg 时需要联网；离线机器须预置系统安装、有效手动路径或已配置目录。
