@@ -65,10 +65,10 @@ class BootstrapRules(unittest.TestCase):
   return download
  def fake_verify(self,candidate,required):return True
  def test_manifest_is_pinned(self):
-  self.assertEqual(set(k.FFMPEG_MANIFEST),{'arm64','amd64'})
-  for arch in ('arm64','amd64'):
+  self.assertEqual(set(k.FFMPEG_MANIFEST),{'arm64','amd64','win64'})
+  for arch in ('arm64','amd64','win64'):
    resources=k.ffmpeg_resources(arch)
-   self.assertEqual(len(resources),4)
+   self.assertEqual(len(resources),3 if arch=='win64' else 4)
    for name,url,sha,size in resources:self.assertTrue(url.startswith('https://'));self.assertEqual(len(sha),64);self.assertGreater(size,0)
  def test_install_reuse_and_notice(self):
   with tempfile.TemporaryDirectory() as d:
@@ -95,6 +95,40 @@ class BootstrapRules(unittest.TestCase):
    with zipfile.ZipFile(archive,'w') as bundle:bundle.writestr('../escape',b'x');bundle.writestr('extra',b'y')
    with self.assertRaises(k.ExportError):k.extract_single_binary(archive,'ffmpeg',Path(d)/'ffmpeg')
    self.assertFalse((Path(d)/'ffmpeg').exists())
+ def fake_win_download(self,calls):
+  def download(url,dest,sha,size,cancel,progress):
+   calls.append(url)
+   if url.endswith('.zip'):
+    with zipfile.ZipFile(dest,'w') as bundle:
+     bundle.writestr('bin/ffmpeg.exe',b'fake-ffmpeg')
+     bundle.writestr('bin/ffprobe.exe',b'fake-probe')
+     bundle.writestr('bin/ffplay.exe',b'ignored')
+     bundle.writestr('README.txt',b'ignored')
+   else:dest.write_bytes(b'x'*size)
+   progress(size)
+  return download
+ def test_win64_bundle_install_and_reuse(self):
+  with tempfile.TemporaryDirectory() as d:
+   calls=[]
+   path=k.install_managed(d,arch='win64',download_fn=self.fake_win_download(calls),verify_fn=self.fake_verify)
+   self.assertTrue(path.endswith('ffmpeg.exe'));self.assertEqual(len(calls),3)
+   self.assertTrue((Path(d)/'9.0.2'/'win64'/'bin'/'ffprobe.exe').is_file())
+   self.assertFalse((Path(d)/'9.0.2'/'win64'/'bin'/'ffplay.exe').exists())
+   self.assertIn('BtbN/FFmpeg-Builds',(Path(d)/'9.0.2'/'win64'/'NOTICE.txt').read_text())
+   again=k.install_managed(d,arch='win64',download_fn=self.fake_win_download(calls),verify_fn=self.fake_verify)
+   self.assertEqual(path,again);self.assertEqual(len(calls),3)
+ def test_windows_pe_architecture(self):
+  with tempfile.TemporaryDirectory() as d:
+   path=Path(d)/'sample.exe';data=bytearray(512);data[:2]=b'MZ';data[0x3C:0x40]=(128).to_bytes(4,'little');data[128:132]=b'PE\0\0';data[132:134]=(0x8664).to_bytes(2,'little');path.write_bytes(data)
+   self.assertEqual(k.verify_pe_arch(path),0x8664)
+   data[132:134]=(0xAA64).to_bytes(2,'little');path.write_bytes(data)
+   with self.assertRaises(k.ExportError):k.verify_pe_arch(path)
+ def test_windows_bundle_requires_both_binaries(self):
+  with tempfile.TemporaryDirectory() as d:
+   archive=Path(d)/'bundle.zip'
+   with zipfile.ZipFile(archive,'w') as bundle:bundle.writestr('bin/ffmpeg.exe',b'x')
+   with self.assertRaises(k.ExportError):k.extract_zip_member(archive,'bin/ffprobe.exe',Path(d)/'ffprobe.exe')
+ def test_binary_name_for_win64(self):self.assertEqual(k.binary_name('ffmpeg','win64'),'ffmpeg.exe')
  def test_download_rejects_non_https(self):
   with tempfile.TemporaryDirectory() as d:
    with self.assertRaises(k.ExportError):k.download_verified('http://example.invalid/ffmpeg',Path(d)/'x','0'*64,1)

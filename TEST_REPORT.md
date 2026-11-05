@@ -1,4 +1,39 @@
-# Render Studio 1.4 测试报告
+# Render Studio 1.5 测试报告
+
+日期：2026-11-05（1.5）；2026-11-04（1.4 基线，保留于下文）。1.5 只交付独立渲染插件，不再附带代码雨整合 TOE；原创插件源码与独立 TOX 采用 MIT，历史素材不随之重新授权。
+
+## 1.5 Windows 自动配置与仅插件交付
+
+### 需求与修复
+
+- 1.4 在 Windows 上被 `host_arch()` 的平台检查直接拒绝，出现「FFmpeg 自动配置目前仅支持 macOS」。1.5 新增 `win64` 分支、固定包、PE 架构检查和 Windows 原生执行验证，不是仅修改报错文案。
+- 发布中移除代码雨整合工程、下载入口与相关宣发，只保留独立 `RenderStudio_1.5_TD2025.tox`。历史版本与标签不移动。
+
+### 固定 Windows 包与许可
+
+- 分发：BtbN FFmpeg-Builds `autobuild-2026-11-04-12-51`，包 `ffmpeg-n9.0.2-47-gb204e94e90-win64-gpl-9.0.zip`。
+- 字节数：`195111884`；SHA-256：`db2867364898bf8b68f5404b998165dfd8d31c9bfabc2a35d6e0c941bf33c1ea`。
+- 发布方 `checksums.sha256` 的 SHA-256：`9508e4f4b1dd98a00391e1f781354dbab6692c78435d570da86b156a4088d4be`。
+- 仅提取 `bin/ffmpeg.exe` 与 `bin/ffprobe.exe`，检查 MZ/PE 头和 `0x8664` 机器类型；实际构建含 `--enable-gpl` 与 `--enable-version3`，按 GPLv3 随附许可、精确上游源码和构建入口。
+- Windows ARM64 没有当前自动包，不能混入 x86_64 支持范围。
+
+### 证据分层
+
+- **纯规则**：`source/test_rules.py` **35/35**，含 win64 清单、bundle 解包、PE 架构、安装复用、取消与失败清理。
+- **真实 macOS smoke**：`source/test_bootstrap_smoke.py` 真实下载、安装、版本与编码器验证通过；320×180、30fps 三帧 H.264+AAC 编码，ffprobe 回读三帧、AAC 48kHz 双声道；第二次复用通过。
+- **独立 TOX**：`dev/host_tox_results.json` overall_pass=true。最终 TOX 换父容器并改名后，Legacy 不存在、版本为 `1.5.0 / TD2025`、相对源引用有效、受管路径真实完成三帧 H.264，manifest 为 1.5.0 / FFmpeg 后端。
+- **Windows runner**：`.github/workflows/bootstrap-smoke.yml` 在 `windows-latest` 与 `macos-latest` 分别执行纯规则、真实下载、安装、版本／编码器验证及三帧编码／解码。精确提交、作业与结果以 GitHub Actions 回读为准；Windows runner 不冒充物理 Windows UI 或所有物理机兼容。
+- **最终产物**：TOX 模块与 `source/` 逐字节一致，无 Legacy、无测试钩子；预览 `preview/RenderStudio_1.5.png` 为真实 1.5 面板。
+
+### 未覆盖与限制
+
+- 首次无系统 FFmpeg 时需要联网；离线机器须预置系统安装、有效手动路径或已配置目录。
+- Windows ARM64、其他操作系统、旧版 TD、原生 Intel Mac、真实指针下载取消、长片压力、磁盘写满及全部格式交叉组合未覆盖。
+- CI runner 通过不证明每一种 Windows 物理机、GPU、网络环境或全部编码组合均通过。
+
+---
+
+# 附：Render Studio 1.4 测试报告
 
 日期：2026-11-04（1.4）；2026-10-15（1.3 基线，保留于下文）。环境：**macOS / TouchDesigner 2025.31550**。1.4 独立 TOX 不再包含 `Legacy_2023_original`；原创插件源码与独立 TOX 采用 MIT，代码雨与历史素材不随之重新授权。
 

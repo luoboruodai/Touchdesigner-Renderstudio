@@ -15,7 +15,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 
-VERSION = '1.4.0'
+VERSION = '1.5.0'
 CODECS = {
     'mpeg4': ('MPEG-4 · 通用', '.mp4', False),
     'h264': ('H.264 / AVC', '.mp4', False),
@@ -178,6 +178,14 @@ FFMPEG_MANIFEST = {
         'versions_sha256': '64347e66bb487d52c6a8a43180028dc2a4d1dc0519ec81233d55e2bd59ebd98e',
         'ffmpeg_size': 33816391, 'ffprobe_size': 33719233, 'versions_size': 1948,
     },
+    'win64': {
+        'stamp': 'autobuild-2026-11-04-12-51',
+        'bundle': 'ffmpeg-n9.0.2-47-gb204e94e90-win64-gpl-9.0.zip',
+        'ffmpeg_sha256': 'db2867364898bf8b68f5404b998165dfd8d31c9bfabc2a35d6e0c941bf33c1ea',
+        'versions_sha256': '9508e4f4b1dd98a00391e1f781354dbab6692c78435d570da86b156a4088d4be',
+        'ffmpeg_size': 195111884, 'versions_size': 5728,
+        'build_url': 'https://github.com/BtbN/FFmpeg-Builds',
+    },
 }
 
 
@@ -186,8 +194,14 @@ class BootstrapCancelled(ExportError):
 
 
 def host_arch():
-    if platform.system() != 'Darwin':
-        raise ExportError('FFmpeg 自动配置目前仅支持 macOS；其他平台请使用系统 FFmpeg')
+    system = platform.system()
+    if system == 'Windows':
+        machine = platform.machine().lower()
+        if machine in ('amd64', 'x86_64'):
+            return 'win64'
+        raise ExportError('Windows 自动配置目前仅支持 x86_64；其他架构请手动指定系统 FFmpeg')
+    if system != 'Darwin':
+        raise ExportError('FFmpeg 自动配置目前支持 macOS 与 Windows x86_64；其他平台请使用系统 FFmpeg')
     try:
         if subprocess.check_output(['/usr/sbin/sysctl', '-n', 'hw.optional.arm64'], text=True, timeout=5).strip() == '1':
             return 'arm64'
@@ -199,6 +213,10 @@ def host_arch():
     if machine in ('x86_64', 'amd64'):
         return 'amd64'
     raise ExportError('当前 macOS 架构没有已验证的 FFmpeg 包：' + machine)
+
+
+def binary_name(name, arch=None):
+    return name + '.exe' if (arch or host_arch()) == 'win64' else name
 
 
 def managed_root(root=None):
@@ -215,15 +233,15 @@ def managed_dir(root=None, arch=None):
 
 
 def managed_executable(root=None, arch=None):
-    binary = managed_dir(root, arch) / 'bin' / 'ffmpeg'
-    probe = managed_dir(root, arch) / 'bin' / 'ffprobe'
+    binary = managed_dir(root, arch) / 'bin' / binary_name('ffmpeg', arch)
+    probe = managed_dir(root, arch) / 'bin' / binary_name('ffprobe', arch)
     if binary.is_file() and probe.is_file() and os.access(binary, os.X_OK) and os.access(probe, os.X_OK):
         return str(binary)
     return None
 
 
 def managed_ffprobe(root=None, arch=None):
-    binary = managed_dir(root, arch) / 'bin' / 'ffprobe'
+    binary = managed_dir(root, arch) / 'bin' / binary_name('ffprobe', arch)
     return str(binary) if binary.is_file() and os.access(binary, os.X_OK) else None
 
 
@@ -231,6 +249,13 @@ def ffmpeg_resources(arch):
     if arch not in FFMPEG_MANIFEST:
         raise ExportError('没有此架构的 FFmpeg 下载清单：' + str(arch))
     item = FFMPEG_MANIFEST[arch]
+    if arch == 'win64':
+        prefix = 'https://github.com/BtbN/FFmpeg-Builds/releases/download/' + item['stamp'] + '/'
+        return [
+            ('bundle', prefix + item['bundle'], item['ffmpeg_sha256'], item['ffmpeg_size']),
+            ('license', FFMPEG_LICENSE_URL, FFMPEG_LICENSE_SHA256, FFMPEG_LICENSE_SIZE),
+            ('versions', prefix + 'checksums.sha256', item['versions_sha256'], item['versions_size']),
+        ]
     prefix = 'https://ffmpeg.martin-riedl.de/download/macos/' + arch + '/' + item['stamp'] + '/'
     return [
         ('ffmpeg', prefix + 'ffmpeg.zip', item['ffmpeg_sha256'], item['ffmpeg_size']),
@@ -259,13 +284,14 @@ def default_ssl_context():
 
 def download_verified(url, destination, expected_sha256, expected_size, cancel_event=None, progress=None):
     parts = urllib.parse.urlsplit(url)
-    if parts.scheme != 'https' or parts.hostname not in ('ffmpeg.martin-riedl.de', 'raw.githubusercontent.com'):
+    allowed_hosts = ('ffmpeg.martin-riedl.de', 'raw.githubusercontent.com', 'github.com', 'release-assets.githubusercontent.com', 'objects.githubusercontent.com')
+    if parts.scheme != 'https' or parts.hostname not in allowed_hosts:
         raise ExportError('拒绝未列入白名单的下载地址')
     destination = Path(destination)
     partial = destination.with_name(destination.name + '.part')
     digest = hashlib.sha256()
     received = 0
-    request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (compatible; RenderStudio/1.4)'})
+    request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (compatible; RenderStudio/1.5)'})
     try:
         with urllib.request.urlopen(request, timeout=30, context=default_ssl_context()) as response, partial.open('xb') as stream:
             while True:
@@ -309,28 +335,74 @@ def extract_single_binary(archive, member, destination):
         raise
 
 
+def extract_zip_member(archive, member, destination):
+    destination = Path(destination)
+    partial = destination.with_name(destination.name + '.part')
+    try:
+        with zipfile.ZipFile(archive) as bundle:
+            matches = [item for item in bundle.infolist() if not item.is_dir() and item.filename == member]
+            if len(matches) != 1:
+                raise ExportError('FFmpeg ZIP 缺少必需成员：' + member)
+            if bundle.testzip() is not None:
+                raise ExportError('FFmpeg ZIP CRC 校验失败')
+            with bundle.open(matches[0]) as source, partial.open('xb') as target:
+                shutil.copyfileobj(source, target, 1024 * 1024)
+        partial.chmod(0o755)
+        os.replace(partial, destination)
+    except Exception:
+        if partial.exists():
+            partial.unlink()
+        raise
+
+
+def verify_pe_arch(binary, expected_machine=0x8664):
+    data = Path(binary).read_bytes()
+    if len(data) < 0x40 or data[:2] != b'MZ':
+        raise ExportError('Windows 可执行文件缺少 MZ/PE 头')
+    offset = int.from_bytes(data[0x3C:0x40], 'little')
+    if offset + 6 > len(data) or data[offset:offset + 4] != b'PE\0\0':
+        raise ExportError('Windows 可执行文件缺少有效 PE 头')
+    machine = int.from_bytes(data[offset + 4:offset + 6], 'little')
+    if machine != expected_machine:
+        raise ExportError('Windows 可执行文件架构不符：0x%04x' % machine)
+    return machine
+
+
+def execution_prefix(windows_package):
+    if not windows_package or platform.system() == 'Windows':
+        return []
+    wine = shutil.which('wine64') or shutil.which('wine')
+    if not wine:
+        raise ExportError('Windows 包已下载，但当前系统无法执行 Windows 验证；请在 Windows runner 上验收')
+    return [wine]
+
+
 def verify_managed_install(candidate, required_encoders=()):
     candidate = Path(candidate)
-    ffmpeg = candidate / 'bin' / 'ffmpeg'
-    ffprobe = candidate / 'bin' / 'ffprobe'
+    windows_package = (candidate / 'bin' / 'ffmpeg.exe').is_file()
+    ffmpeg = candidate / 'bin' / ('ffmpeg.exe' if windows_package else 'ffmpeg')
+    ffprobe = candidate / 'bin' / ('ffprobe.exe' if windows_package else 'ffprobe')
+    prefix = execution_prefix(windows_package)
     for binary, name in ((ffmpeg, 'ffmpeg'), (ffprobe, 'ffprobe')):
-        result = subprocess.run([str(binary), '-version'], capture_output=True, text=True, timeout=30)
-        if result.returncode or ('version ' + FFMPEG_VERSION) not in result.stdout.splitlines()[0]:
-            raise ExportError(name + ' 无法执行或版本不符')
+        if windows_package:
+            verify_pe_arch(binary)
+        result = subprocess.run([*prefix, str(binary), '-version'], capture_output=True, text=True, timeout=60)
+        if result.returncode or not result.stdout.splitlines() or ('version ' + FFMPEG_VERSION) not in result.stdout.splitlines()[0]:
+            raise ExportError(name + ' 无法执行或版本不符：' + result.stderr[-300:])
         if name == 'ffmpeg' and ('--enable-gpl' not in result.stdout or '--enable-version3' not in result.stdout):
             raise ExportError('FFmpeg 构建许可与发布记录不符')
-        if shutil.which('codesign'):
+        if not windows_package and shutil.which('codesign'):
             signed = subprocess.run(['codesign', '--verify', '--strict', str(binary)], capture_output=True, text=True, timeout=30)
             if signed.returncode:
                 raise ExportError(name + ' 苹果代码签名验证失败')
-        if shutil.which('otool'):
+        if not windows_package and shutil.which('otool'):
             linked = subprocess.check_output(['otool', '-L', str(binary)], text=True, timeout=30)
             for line in linked.splitlines()[1:]:
                 dependency = line.strip().split(' ', 1)[0]
                 if dependency and not dependency.startswith(('/usr/lib/', '/System/Library/')):
                     raise ExportError(name + ' 含有非系统动态依赖：' + dependency)
     if required_encoders:
-        listing = subprocess.check_output([str(ffmpeg), '-hide_banner', '-encoders'], text=True, timeout=30)
+        listing = subprocess.check_output([*prefix, str(ffmpeg), '-hide_banner', '-encoders'], text=True, timeout=60)
         available = set(re.findall(r'^\s*[VAS][A-Z.]{5}\s+(\S+)', listing, re.M))
         missing = [name for name in required_encoders if name not in available]
         if missing:
@@ -342,10 +414,10 @@ def ffmpeg_notice(arch):
     lines = [
         'RenderStudio managed FFmpeg distribution', '',
         'Version: ' + FFMPEG_VERSION,
-        'Architecture: macOS/' + arch,
+        'Architecture: Windows x86_64' if arch == 'win64' else 'macOS/' + arch,
         'Build license: GNU General Public License v3 (build uses --enable-gpl and --enable-version3)',
         'Upstream source: ' + FFMPEG_SOURCE_URL,
-        'Build script: ' + FFMPEG_BUILD_URL,
+        'Build script: ' + FFMPEG_MANIFEST[arch].get('build_url', FFMPEG_BUILD_URL),
         'License text: share/COPYING.GPLv3', '',
         'Pinned downloads:',
     ]
@@ -391,7 +463,7 @@ def install_managed(root=None, arch=None, progress=None, cancel_event=None, requ
             _check_cancel(cancel_event)
             if progress:
                 progress({'stage': name, 'fraction': completed / total, 'message': '正在下载 FFmpeg 9.0.2 · ' + name})
-            destination = staging / (name + ('.zip' if name in ('ffmpeg', 'ffprobe') else '.txt'))
+            destination = staging / (name + ('.zip' if name in ('ffmpeg', 'ffprobe', 'bundle') else '.txt'))
             before = completed
 
             def advance(received):
@@ -402,12 +474,17 @@ def install_managed(root=None, arch=None, progress=None, cancel_event=None, requ
             completed += size
         (staging / 'bin').mkdir()
         (staging / 'share').mkdir()
-        extract_single_binary(staging / 'ffmpeg.zip', 'ffmpeg', staging / 'bin' / 'ffmpeg')
-        extract_single_binary(staging / 'ffprobe.zip', 'ffprobe', staging / 'bin' / 'ffprobe')
+        if arch == 'win64':
+            extract_zip_member(staging / 'bundle.zip', 'bin/ffmpeg.exe', staging / 'bin' / 'ffmpeg.exe')
+            extract_zip_member(staging / 'bundle.zip', 'bin/ffprobe.exe', staging / 'bin' / 'ffprobe.exe')
+            (staging / 'bundle.zip').unlink()
+        else:
+            extract_single_binary(staging / 'ffmpeg.zip', 'ffmpeg', staging / 'bin' / 'ffmpeg')
+            extract_single_binary(staging / 'ffprobe.zip', 'ffprobe', staging / 'bin' / 'ffprobe')
+            (staging / 'ffmpeg.zip').unlink()
+            (staging / 'ffprobe.zip').unlink()
         os.replace(staging / 'license.txt', staging / 'share' / 'COPYING.GPLv3')
         os.replace(staging / 'versions.txt', staging / 'share' / 'versions.txt')
-        (staging / 'ffmpeg.zip').unlink()
-        (staging / 'ffprobe.zip').unlink()
         (staging / 'NOTICE.txt').write_text(ffmpeg_notice(arch), encoding='utf-8')
         _check_cancel(cancel_event)
         verify_fn(staging, required_encoders)
@@ -420,7 +497,7 @@ def install_managed(root=None, arch=None, progress=None, cancel_event=None, requ
         os.replace(staging, target)
         if progress:
             progress({'stage': 'ready', 'fraction': 1.0, 'message': 'FFmpeg 9.0.2 已配置完成'})
-        return str(target / 'bin' / 'ffmpeg')
+        return str(target / 'bin' / binary_name('ffmpeg', arch))
     finally:
         if staging is not None and staging.exists():
             shutil.rmtree(staging)

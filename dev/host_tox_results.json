@@ -1,6 +1,6 @@
 {
   "overall_pass": true,
-  "when": "2026-11-04 17:51:11",
+  "when": "2026-11-05 15:19:16",
   "checks": [
     {
       "name": "legacy_absent",
@@ -8,9 +8,9 @@
       "detail": null
     },
     {
-      "name": "version_1_4",
+      "name": "version_1_5",
       "pass": true,
-      "detail": "1.4.0 / TD2025"
+      "detail": "1.5.0 / TD2025"
     },
     {
       "name": "relative_source_after_rename",
@@ -18,7 +18,7 @@
       "detail": "../rs14_noise"
     },
     {
-      "name": "managed_reuse_without_download",
+      "name": "check_or_bootstrap_started",
       "pass": true,
       "detail": "检查通过 · 640 × 360 · 3 帧 · 0.10 秒"
     },
@@ -26,6 +26,11 @@
       "name": "managed_path_selected",
       "pass": true,
       "detail": "<managed>/9.0.2/arm64/bin/ffmpeg"
+    },
+    {
+      "name": "managed_check_ready",
+      "pass": true,
+      "detail": "检查通过 · 640 × 360 · 3 帧 · 0.10 秒"
     },
     {
       "name": "renamed_tox_render_completed",
@@ -47,7 +52,7 @@
       "name": "manifest_version_backend",
       "pass": true,
       "detail": {
-        "version": "1.4.0",
+        "version": "1.5.0",
         "result": "完成",
         "frames": 3,
         "fps": 30.0,
@@ -56,7 +61,7 @@
         "width": 640,
         "height": 360,
         "capture_precision": "native_or_8bit",
-        "encode_ms": 444.39833400247153,
+        "encode_ms": 317.21291600115364,
         "mode": "render",
         "container": "mp4",
         "backend": "ffmpeg",
