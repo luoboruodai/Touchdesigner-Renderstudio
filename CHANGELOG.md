@@ -4,9 +4,9 @@
 
 - 发布内容精简为**独立渲染插件**：不再附带代码雨整合 TOE、下载入口或相关宣发；1.4/1.3 历史版本与标签保留。
 - 修复 Windows 首次使用时的「FFmpeg 自动配置目前仅支持 macOS」问题：新增 **Windows x86_64** 自动下载与配置，固定 BtbN `ffmpeg-n9.0.2-47-gb204e94e90-win64-gpl-9.0.zip`、195111884 字节与 SHA-256。
-- Windows 包仅提取 `bin/ffmpeg.exe` 与 `bin/ffprobe.exe`，校验 PE x86_64、版本和项目所需编码器；在 Windows runner 上执行真实三帧 H.264+AAC 编码与 ffprobe 解码。
+- Windows 包仅提取白名单中的 ffmpeg.exe 与 ffprobe.exe（支持 `bin/` 或根目录布局），校验 PE x86_64、版本和项目所需编码器；在 Windows runner 上执行真实三帧 H.264+AAC 编码与 ffprobe 解码。
 - macOS arm64 / amd64 自动配置保持既有固定包、签名与依赖验证；新增跨平台 `bootstrap-smoke` GitHub Actions，分别执行 Windows 与 macOS 的真实下载、安装和编码／解码。
-- 纯规则扩展至 **35 项**，新增 win64 清单、bundle 解包、PE 架构与复用测试；1.5 独立 TOX 改名重导入和真实三帧解码通过。
+- 纯规则扩展至 **36 项**，新增 win64 清单、bundle 解包、PE 架构、根目录布局与复用测试；1.5 独立 TOX 改名重导入和真实三帧解码通过。
 - 双语文档、第三方声明、CI 与发布证据同步；自动包仍不包含 Windows ARM64 或其他操作系统，首次无系统 FFmpeg 时需要联网。
 
 ## 1.4.0 · 2026-11-04

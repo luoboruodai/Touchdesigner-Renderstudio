@@ -14,7 +14,7 @@
 - 分发：BtbN FFmpeg-Builds `autobuild-2026-11-04-12-51`，包 `ffmpeg-n9.0.2-47-gb204e94e90-win64-gpl-9.0.zip`。
 - 字节数：`195111884`；SHA-256：`db2867364898bf8b68f5404b998165dfd8d31c9bfabc2a35d6e0c941bf33c1ea`。
 - 发布方 `checksums.sha256` 的 SHA-256：`9508e4f4b1dd98a00391e1f781354dbab6692c78435d570da86b156a4088d4be`。
-- 仅提取 `bin/ffmpeg.exe` 与 `bin/ffprobe.exe`，检查 MZ/PE 头和 `0x8664` 机器类型；实际构建含 `--enable-gpl` 与 `--enable-version3`，按 GPLv3 随附许可、精确上游源码和构建入口。
+- 仅提取白名单中的 ffmpeg.exe 与 ffprobe.exe（兼容 `bin/` 或根目录布局），检查 MZ/PE 头和 `0x8664` 机器类型；实际构建含 `--enable-gpl` 与 `--enable-version3`，按 GPLv3 随附许可、精确上游源码和构建入口。
 - Windows ARM64 没有当前自动包，不能混入 x86_64 支持范围。
 
 ### 证据分层

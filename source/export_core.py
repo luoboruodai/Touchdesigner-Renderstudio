@@ -355,6 +355,15 @@ def extract_zip_member(archive, member, destination):
         raise
 
 
+def extract_windows_binary(archive, name, destination):
+    with zipfile.ZipFile(archive) as bundle:
+        names = set(bundle.namelist())
+    for member in ('bin/' + name, name):
+        if member in names:
+            return extract_zip_member(archive, member, destination)
+    raise ExportError('FFmpeg ZIP 缺少必需成员：bin/' + name + ' 或 ' + name)
+
+
 def verify_pe_arch(binary, expected_machine=0x8664):
     data = Path(binary).read_bytes()
     if len(data) < 0x40 or data[:2] != b'MZ':
@@ -475,8 +484,8 @@ def install_managed(root=None, arch=None, progress=None, cancel_event=None, requ
         (staging / 'bin').mkdir()
         (staging / 'share').mkdir()
         if arch == 'win64':
-            extract_zip_member(staging / 'bundle.zip', 'bin/ffmpeg.exe', staging / 'bin' / 'ffmpeg.exe')
-            extract_zip_member(staging / 'bundle.zip', 'bin/ffprobe.exe', staging / 'bin' / 'ffprobe.exe')
+            extract_windows_binary(staging / 'bundle.zip', 'ffmpeg.exe', staging / 'bin' / 'ffmpeg.exe')
+            extract_windows_binary(staging / 'bundle.zip', 'ffprobe.exe', staging / 'bin' / 'ffprobe.exe')
             (staging / 'bundle.zip').unlink()
         else:
             extract_single_binary(staging / 'ffmpeg.zip', 'ffmpeg', staging / 'bin' / 'ffmpeg')

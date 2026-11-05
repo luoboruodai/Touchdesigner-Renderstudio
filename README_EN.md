@@ -88,7 +88,7 @@ On the tested TD 2025.31550 build, Audio File In CHOP remained time-sliced even 
 
 ## Validation and CI
 
-- **35/35 pure-rule checks:** existing rendering rules plus the win64 manifest, bundle extraction, PE architecture, installation reuse, cancellation and failure cleanup.
+- **36/36 pure-rule checks:** existing rendering rules plus the win64 manifest, bundle extraction, PE architecture, installation reuse, cancellation and failure cleanup.
 - **Real macOS smoke:** download, installation, version/encoder verification, three-frame H.264+AAC encode/decode and second-run reuse all pass.
 - **Independent TOX:** re-import under a different parent and a new name, relative source resolution and real three-frame decoding all pass.
 - **Windows runner:** the `bootstrap-smoke` GitHub Actions workflow performs a real download, installation, version/encoder verification and three-frame encode/decode. See **Actions** for the exact commit and result.

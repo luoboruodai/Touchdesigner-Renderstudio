@@ -128,6 +128,12 @@ class BootstrapRules(unittest.TestCase):
    archive=Path(d)/'bundle.zip'
    with zipfile.ZipFile(archive,'w') as bundle:bundle.writestr('bin/ffmpeg.exe',b'x')
    with self.assertRaises(k.ExportError):k.extract_zip_member(archive,'bin/ffprobe.exe',Path(d)/'ffprobe.exe')
+ def test_windows_binary_accepts_root_layout(self):
+  with tempfile.TemporaryDirectory() as d:
+   archive=Path(d)/'bundle.zip'
+   with zipfile.ZipFile(archive,'w') as bundle:bundle.writestr('ffmpeg.exe',b'root-binary')
+   k.extract_windows_binary(archive,'ffmpeg.exe',Path(d)/'ffmpeg.exe')
+   self.assertEqual((Path(d)/'ffmpeg.exe').read_bytes(),b'root-binary')
  def test_binary_name_for_win64(self):self.assertEqual(k.binary_name('ffmpeg','win64'),'ffmpeg.exe')
  def test_download_rejects_non_https(self):
   with tempfile.TemporaryDirectory() as d:
