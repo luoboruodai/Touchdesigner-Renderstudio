@@ -396,9 +396,14 @@ def verify_managed_install(candidate, required_encoders=()):
         if windows_package:
             verify_pe_arch(binary)
         result = subprocess.run([*prefix, str(binary), '-version'], capture_output=True, text=True, timeout=60)
-        if result.returncode or not result.stdout.splitlines() or ('version ' + FFMPEG_VERSION) not in result.stdout.splitlines()[0]:
+        if result.returncode or not result.stdout.splitlines():
             detail = (result.stdout + result.stderr).strip()[-500:]
-            raise ExportError(name + ' 无法执行或版本不符：code=' + str(result.returncode) + ' output=' + detail)
+            raise ExportError(name + ' 无法执行：code=' + str(result.returncode) + ' output=' + detail)
+        if windows_package:
+            if '20261104' not in result.stdout:
+                raise ExportError(name + ' BtbN 构建版本不符，预期标识 20261104')
+        elif ('version ' + FFMPEG_VERSION) not in result.stdout.splitlines()[0]:
+            raise ExportError(name + ' 版本不符，预期 ' + FFMPEG_VERSION)
         if name == 'ffmpeg' and ('--enable-gpl' not in result.stdout or '--enable-version3' not in result.stdout):
             raise ExportError('FFmpeg 构建许可与发布记录不符')
         if not windows_package and shutil.which('codesign'):
