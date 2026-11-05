@@ -358,9 +358,9 @@ def extract_zip_member(archive, member, destination):
 def extract_windows_binary(archive, name, destination):
     with zipfile.ZipFile(archive) as bundle:
         names = set(bundle.namelist())
-    for member in ('bin/' + name, name):
-        if member in names:
-            return extract_zip_member(archive, member, destination)
+    matches = [member for member in names if member in ('bin/' + name, name) or member.endswith('/bin/' + name) or member.endswith('/' + name)]
+    if len(matches) == 1:
+        return extract_zip_member(archive, matches[0], destination)
     raise ExportError('FFmpeg ZIP 缺少必需成员：bin/' + name + ' 或 ' + name + '；实际成员：' + ', '.join(sorted(names)[:40]))
 
 

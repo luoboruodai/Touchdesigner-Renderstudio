@@ -3,16 +3,16 @@
  "environment": "macOS / TouchDesigner 2025.31550; Windows x86_64 CI runner",
  "date": "2026-11-05",
  "unit_rules": {
-  "passed": 36,
+  "passed": 37,
   "failed": 0,
-  "reused_unchanged_evidence": "1.4 的 31 项规则保留；win64 清单、bundle 解包、PE 架构、根目录布局与复用为 1.5 新增"
+  "reused_unchanged_evidence": "1.4 的 31 项规则保留；win64 清单、bundle 解包、PE 架构、根目录与发布子目录布局及复用为 1.5 新增"
  },
  "bootstrap_1_5": {
   "ffmpeg_version": "9.0.2",
   "win64_package": "ffmpeg-n9.0.2-47-gb204e94e90-win64-gpl-9.0.zip",
   "win64_sha256": "db2867364898bf8b68f5404b998165dfd8d31c9bfabc2a35d6e0c941bf33c1ea",
   "win64_pe_architecture": "0x8664",
-  "pure_rule_passed": 36,
+  "pure_rule_passed": 37,
   "macos_real_download_and_encode_pass": true,
   "macos_second_run_reuse": true,
   "independent_tox_results": "dev/host_tox_results.json",
