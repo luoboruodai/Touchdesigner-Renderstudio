@@ -8,7 +8,7 @@
 - `determinism.py`：当前代码雨固定状态适配。
 - `chooser.py`：8槽复用、搜索和分页。
 - `export_core.py`：纯命名/范围/路径校验，以及无TD依赖的FFmpeg固定清单、TLS/CA、哈希校验、macOS签名与依赖验证、Windows PE架构验证、原子安装和取消清理。当前支持macOS arm64/amd64与Windows x86_64。
-- `test_rules.py`：在本目录执行 `python3 test_rules.py`；不启动TD，当前37项。
+- `test_rules.py`：在本目录执行 `python3 test_rules.py`；不启动TD，当前38项。
 - `test_bootstrap_smoke.py`：真实下载、安装、版本/编码器验证、三帧H.264+AAC编码与ffprobe解码、第二次复用；由 `.github/workflows/bootstrap-smoke.yml` 在Windows与macOS runner分别执行。
 
 宿主模块需在TD DAT环境中运行。重载模块前先停止任务；删除导出器前释放接管。FFmpeg可执行文件不在本包内；首次需要且没有可用安装时按固定清单下载到当前用户的RenderStudio目录，许可与构建信息随附。

@@ -140,6 +140,11 @@ class BootstrapRules(unittest.TestCase):
    with zipfile.ZipFile(archive,'w') as bundle:bundle.writestr('ffmpeg-n9.0.2-test/bin/ffmpeg.exe',b'nested-binary')
    k.extract_windows_binary(archive,'ffmpeg.exe',Path(d)/'ffmpeg.exe')
    self.assertEqual((Path(d)/'ffmpeg.exe').read_bytes(),b'nested-binary')
+ def test_windows_required_excludes_videotoolbox(self):
+  names=k.platform_encoders('win64',['h264_videotoolbox','hevc_videotoolbox','libx264','libx265','aac'])
+  self.assertEqual(names,('libx264','libx265','aac'))
+  mac=k.platform_encoders('arm64',['h264_videotoolbox','libx264'])
+  self.assertEqual(mac,('h264_videotoolbox','libx264'))
  def test_binary_name_for_win64(self):self.assertEqual(k.binary_name('ffmpeg','win64'),'ffmpeg.exe')
  def test_download_rejects_non_https(self):
   with tempfile.TemporaryDirectory() as d:

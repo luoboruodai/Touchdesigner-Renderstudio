@@ -19,7 +19,7 @@
 
 ### 证据分层
 
-- **纯规则**：`source/test_rules.py` **35/35**，含 win64 清单、bundle 解包、PE 架构、安装复用、取消与失败清理。
+- **纯规则**：`source/test_rules.py` **38/38**，含 win64 清单、bundle 解包、PE 架构、安装复用、取消与失败清理；Windows 必需编码器排除 Apple 专用 VideoToolbox。
 - **真实 macOS smoke**：`source/test_bootstrap_smoke.py` 真实下载、安装、版本与编码器验证通过；320×180、30fps 三帧 H.264+AAC 编码，ffprobe 回读三帧、AAC 48kHz 双声道；第二次复用通过。
 - **独立 TOX**：`dev/host_tox_results.json` overall_pass=true。最终 TOX 换父容器并改名后，Legacy 不存在、版本为 `1.5.0 / TD2025`、相对源引用有效、受管路径真实完成三帧 H.264，manifest 为 1.5.0 / FFmpeg 后端。
 - **Windows runner**：`.github/workflows/bootstrap-smoke.yml` 在 `windows-latest` 与 `macos-latest` 分别执行纯规则、真实下载、安装、版本／编码器验证及三帧编码／解码。精确提交、作业与结果以 GitHub Actions 回读为准；Windows runner 不冒充物理 Windows UI 或所有物理机兼容。

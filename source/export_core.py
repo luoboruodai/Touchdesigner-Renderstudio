@@ -265,6 +265,12 @@ def ffmpeg_resources(arch):
     ]
 
 
+def platform_encoders(arch, encoders):
+    if arch == 'win64':
+        return tuple(name for name in encoders if not name.endswith('_videotoolbox'))
+    return tuple(encoders)
+
+
 def _check_cancel(cancel_event):
     if cancel_event is not None and cancel_event.is_set():
         raise BootstrapCancelled('已取消 FFmpeg 自动配置；未修改现有环境')

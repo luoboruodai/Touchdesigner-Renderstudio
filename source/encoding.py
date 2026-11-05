@@ -21,7 +21,8 @@ def executable():
 
 def required_encoders():
     registry=catalog()
-    return sorted({s['encoder'] for s in registry.CODECS.values() if s['encoder']}|{c['audio'] for c in registry.CONTAINERS.values() if c['audio']})
+    names=sorted({s['encoder'] for s in registry.CODECS.values() if s['encoder']}|{c['audio'] for c in registry.CONTAINERS.values() if c['audio']})
+    return core().platform_encoders(core().host_arch(),names)
 
 def bootstrap_start():
     global BOOT
